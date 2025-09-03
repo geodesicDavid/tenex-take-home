@@ -6,9 +6,9 @@
 
 ## Story 2.1: Backend Calendar API Endpoint
 
-*   **As a** developer,
-*   **I want** to create a secure backend endpoint that retrieves calendar events using the Google Calendar API,
-*   **so that** the frontend has a data source to display the user's calendar.
+- **As a** developer,
+- **I want** to create a secure backend endpoint that retrieves calendar events using the Google Calendar API,
+- **so that** the frontend has a data source to display the user's calendar.
 
 ### Acceptance Criteria
 
@@ -19,9 +19,9 @@
 
 ## Story 2.2: Frontend Main Application Layout
 
-*   **As a** user,
-*   **I want** to see a well-structured main application screen with both a calendar view and a chat interface,
-*   **so that** I can easily understand and interact with the application's core features.
+- **As a** user,
+- **I want** to see a well-structured main application screen with both a calendar view and a chat interface,
+- **so that** I can easily understand and interact with the application's core features.
 
 ### Acceptance Criteria
 
@@ -32,9 +32,9 @@
 
 ## Story 2.3: Frontend Calendar Display
 
-*   **As a** user,
-*   **I want** to see my upcoming calendar events displayed clearly on the screen,
-*   **so that** I have context for my conversations with the agent.
+- **As a** user,
+- **I want** to see my upcoming calendar events displayed clearly on the screen,
+- **so that** I have context for my conversations with the agent.
 
 ### Acceptance Criteria
 
@@ -45,9 +45,9 @@
 
 ## Story 2.4: Frontend Chat Interface & Backend Hook
 
-*   **As a** user,
-*   **I want** a functional chat interface where I can type and send a message,
-*   **so that** I can begin to interact with the cal agent.
+- **As a** user,
+- **I want** a functional chat interface where I can type and send a message,
+- **so that** I can begin to interact with the cal agent.
 
 ### Acceptance Criteria
 

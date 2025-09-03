@@ -1,4 +1,5 @@
 # Unified Project Structure
+
 ```plaintext
 cal-agent/
 ├── .github/                    # CI/CD workflows

@@ -17,49 +17,49 @@ paths:
     get:
       summary: Initiate Google OAuth flow
       responses:
-        '302':
+        "302":
           description: Redirects to Google's OAuth consent screen.
 
   /auth/google/callback:
     get:
       summary: Handle Google OAuth callback
       responses:
-        '302':
+        "302":
           description: Redirects to the frontend application after successful login.
 
   /auth/logout:
     post:
       summary: Log out the current user
       responses:
-        '200':
+        "200":
           description: Successfully logged out.
 
   /users/me:
     get:
       summary: Get the current user
       responses:
-        '200':
+        "200":
           description: The current user's information.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        '401':
+                $ref: "#/components/schemas/User"
+        "401":
           description: Unauthorized.
 
   /calendar/events:
     get:
       summary: Get calendar events
       responses:
-        '200':
+        "200":
           description: A list of calendar events.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CalendarEvent'
-        '401':
+                  $ref: "#/components/schemas/CalendarEvent"
+        "401":
           description: Unauthorized.
 
   /chat:
@@ -75,13 +75,13 @@ paths:
                 message:
                   type: string
       responses:
-        '200':
+        "200":
           description: The agent's response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ChatMessage'
-        '401':
+                $ref: "#/components/schemas/ChatMessage"
+        "401":
           description: Unauthorized.
 
 components:

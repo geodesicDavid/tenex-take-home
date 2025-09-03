@@ -1,6 +1,7 @@
 # Testing Strategy
 
 ## Testing Pyramid
+
 ```text
       / \
      /   \
@@ -16,6 +17,7 @@
 ## Test Organization
 
 ### Frontend Tests
+
 ```
 apps/web/src/
 ├── components/
@@ -27,6 +29,7 @@ apps/web/src/
 ```
 
 ### Backend Tests
+
 ```
 apps/api/
 └── tests/
@@ -36,11 +39,13 @@ apps/api/
 ```
 
 ### E2E Tests
+
 End-to-end tests are not in scope for the MVP of this project.
 
 ## Test Examples
 
 ### Frontend Component Test
+
 ```typescript
 import { render, screen } from '@testing-library/react';
 import MyComponent from '../MyComponent';
@@ -53,6 +58,7 @@ test('renders my component', () => {
 ```
 
 ### Backend API Test
+
 ```python
 from fastapi.testclient import TestClient
 from app.main import app
@@ -66,4 +72,5 @@ def test_read_main():
 ```
 
 ### E2E Test
+
 End-to-end tests are not in scope for the MVP of this project.

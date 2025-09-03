@@ -6,9 +6,9 @@
 
 ## Story 1.1: Project Initialization & Monorepo Setup
 
-*   **As a** developer,
-*   **I want** to initialize the project within a monorepo structure,
-*   **so that** I can efficiently manage the frontend and backend codebases in a single repository.
+- **As a** developer,
+- **I want** to initialize the project within a monorepo structure,
+- **so that** I can efficiently manage the frontend and backend codebases in a single repository.
 
 ### Acceptance Criteria
 
@@ -19,9 +19,9 @@
 
 ## Story 1.2: Backend Google OAuth 2.0 Flow
 
-*   **As a** developer,
-*   **I want** to implement the server-side Google OAuth 2.0 authentication flow,
-*   **so that** the application can securely obtain permission to access a user's Google Calendar.
+- **As a** developer,
+- **I want** to implement the server-side Google OAuth 2.0 authentication flow,
+- **so that** the application can securely obtain permission to access a user's Google Calendar.
 
 ### Acceptance Criteria
 
@@ -32,9 +32,9 @@
 
 ## Story 1.3: Frontend Login Interface
 
-*   **As a** user,
-*   **I want** to see a clean login page with a "Login with Google" button,
-*   **so that** I can easily and securely initiate the authentication process.
+- **As a** user,
+- **I want** to see a clean login page with a "Login with Google" button,
+- **so that** I can easily and securely initiate the authentication process.
 
 ### Acceptance Criteria
 

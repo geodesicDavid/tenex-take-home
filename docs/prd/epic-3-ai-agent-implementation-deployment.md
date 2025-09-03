@@ -6,9 +6,9 @@
 
 ## Story 3.1: Backend LLM Integration
 
-*   **As a** developer,
-*   **I want** to integrate the backend chat service with the Google Gemini LLM,
-*   **so that** the agent can generate intelligent, context-aware responses based on the user's calendar.
+- **As a** developer,
+- **I want** to integrate the backend chat service with the Google Gemini LLM,
+- **so that** the agent can generate intelligent, context-aware responses based on the user's calendar.
 
 ### Acceptance Criteria
 
@@ -19,9 +19,9 @@
 
 ## Story 3.2: Frontend Chat Response Handling
 
-*   **As a** user,
-*   **I want** to see the agent's response appear in the chat window in real-time,
-*   **so that** I can have a natural and engaging conversation with the cal agent.
+- **As a** user,
+- **I want** to see the agent's response appear in the chat window in real-time,
+- **so that** I can have a natural and engaging conversation with the cal agent.
 
 ### Acceptance Criteria
 
@@ -32,9 +32,9 @@
 
 ## Story 3.3: Application Deployment
 
-*   **As a** developer,
-*   **I want** to deploy the entire full-stack application to a public URL,
-*   **so that** potential employers can easily access and evaluate the live demo.
+- **As a** developer,
+- **I want** to deploy the entire full-stack application to a public URL,
+- **so that** potential employers can easily access and evaluate the live demo.
 
 ### Acceptance Criteria
 

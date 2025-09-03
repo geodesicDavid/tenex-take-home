@@ -5,6 +5,7 @@
 ### Serverless Architecture
 
 #### Function Organization
+
 ```
 api/
 ├── index.py            # Main entry point for the FastAPI app
@@ -20,6 +21,7 @@ api/
 ```
 
 #### Function Template
+
 ```python
 from fastapi import APIRouter
 
@@ -32,11 +34,13 @@ async def my_endpoint():
 ```
 
 ## Database Architecture
+
 As stated previously, a database is not required for the MVP of this project.
 
 ## Authentication and Authorization
 
 ### Auth Flow
+
 ```mermaid
 sequenceDiagram
     participant User
@@ -56,6 +60,7 @@ sequenceDiagram
 ```
 
 #### Middleware/Guards
+
 ```python
 from fastapi import Request, Depends, HTTPException
 from fastapi.security import HTTPBearer

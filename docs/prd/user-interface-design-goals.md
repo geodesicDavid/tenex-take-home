@@ -10,10 +10,10 @@ The core interaction is a single-page application experience after login. The ma
 
 ## Core Screens and Views
 
-*   **Login Screen:** A simple page with a single "Login with Google" call to action.
-*   **Main Application Screen:** The main interface containing two primary components:
-    *   **Calendar View:** A read-only display of the user's calendar.
-    *   **Chat Interface:** The chat history and text input for interacting with the agent.
+- **Login Screen:** A simple page with a single "Login with Google" call to action.
+- **Main Application Screen:** The main interface containing two primary components:
+  - **Calendar View:** A read-only display of the user's calendar.
+  - **Chat Interface:** The chat history and text input for interacting with the agent.
 
 ## Accessibility: WCAG AA
 

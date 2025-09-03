@@ -3,6 +3,7 @@
 ## Local Development Setup
 
 ### Prerequisites
+
 ```bash
 # Install Node.js and npm
 # Install Python 3.11+ and pip
@@ -11,6 +12,7 @@ npm install -g turbo
 ```
 
 ### Initial Setup
+
 ```bash
 # Clone the repository
 git clone <repository-url>
@@ -21,6 +23,7 @@ npm install
 ```
 
 ### Development Commands
+
 ```bash
 # Start all services (frontend and backend)
 turbo dev
@@ -38,6 +41,7 @@ turbo test
 ## Environment Configuration
 
 ### Required Environment Variables
+
 ```bash
 # Frontend (.env in apps/web)
 VITE_API_BASE_URL=http://localhost:8000

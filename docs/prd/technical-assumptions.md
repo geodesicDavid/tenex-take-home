@@ -14,10 +14,10 @@ For this project, a combination of **Unit and Integration testing** is required.
 
 ## Additional Technical Assumptions and Requests
 
-*   **Frontend:** React with the Material-UI component library.
-*   **Backend:** Python with the FastAPI framework.
-*   **Database:** No database is required for the MVP. Calendar data will be fetched from the Google API on demand.
-*   **AI/LLM:** The free tier of Google Gemini will be used for the chat agent's intelligence.
-*   **Security:** OAuth refresh tokens must be stored securely on the server-side, using a dedicated service like Google Cloud Secret Manager.
+- **Frontend:** React with the Material-UI component library.
+- **Backend:** Python with the FastAPI framework.
+- **Database:** No database is required for the MVP. Calendar data will be fetched from the Google API on demand.
+- **AI/LLM:** The free tier of Google Gemini will be used for the chat agent's intelligence.
+- **Security:** OAuth refresh tokens must be stored securely on the server-side, using a dedicated service like Google Cloud Secret Manager.
 
 ---

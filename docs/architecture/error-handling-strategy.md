@@ -1,6 +1,7 @@
 # Error Handling Strategy
 
 ## Error Flow
+
 ```mermaid
 sequenceDiagram
     participant User
@@ -14,6 +15,7 @@ sequenceDiagram
 ```
 
 ## Error Response Format
+
 ```typescript
 interface ApiError {
   error: {
@@ -27,9 +29,10 @@ interface ApiError {
 ```
 
 ## Frontend Error Handling
+
 ```typescript
-import { useState } from 'react';
-import { getCalendarEvents } from './services';
+import { useState } from "react";
+import { getCalendarEvents } from "./services";
 
 const Calendar: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
@@ -39,7 +42,7 @@ const Calendar: React.FC = () => {
       const events = await getCalendarEvents();
       // ...
     } catch (err) {
-      setError('Failed to fetch calendar events.');
+      setError("Failed to fetch calendar events.");
     }
   };
 
@@ -48,6 +51,7 @@ const Calendar: React.FC = () => {
 ```
 
 ## Backend Error Handling
+
 ```python
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
