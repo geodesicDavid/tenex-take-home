@@ -11,6 +11,7 @@ router = APIRouter()
 
 @router.get("/auth/google")
 async def auth_google():
+<<<<<<< HEAD
     """Initiate Google OAuth flow"""
     # Generate state parameter for CSRF protection
     state = secrets.token_urlsafe(32)
@@ -24,7 +25,7 @@ async def auth_google():
     auth_url = auth_service.generate_oauth_url(state)
     
     return RedirectResponse(url=auth_url)
-
+>>>>>>> dev-story-1.3
 
 @router.get("/auth/google/callback")
 async def auth_google_callback(
