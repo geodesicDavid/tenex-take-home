@@ -9,8 +9,14 @@ logger = logging.getLogger(__name__)
 
 class SecretManagerService:
     def __init__(self):
-        self.client = secretmanager.SecretManagerServiceClient()
+        self._client = None
         self.project_id = settings.google_cloud_project_id
+    
+    @property
+    def client(self):
+        if self._client is None:
+            self._client = secretmanager.SecretManagerServiceClient()
+        return self._client
     
     def store_refresh_token(self, user_id: str, refresh_token: str) -> bool:
         """Store refresh token in Google Cloud Secret Manager"""

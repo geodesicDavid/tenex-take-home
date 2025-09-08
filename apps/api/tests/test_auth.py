@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import Mock, patch, MagicMock
 from fastapi.testclient import TestClient
 from fastapi import Request, HTTPException
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from app.main import app
 from app.core.auth import AuthService, auth_service, session_store
@@ -42,7 +42,7 @@ def mock_user_session(mock_google_user_info):
         user_id=mock_google_user_info.id,
         session_id="test_session_id",
         access_token="mock_access_token",
-        expires_at=datetime.utcnow() + timedelta(hours=1),
+        expires_at=datetime.now(timezone.utc) + timedelta(hours=1),
         is_active=True
     )
 
@@ -134,7 +134,7 @@ class TestAuthService:
         assert isinstance(session, UserSession)
         assert session.user_id == mock_google_user_info.id
         assert session.access_token == "mock_access_token"
-        assert session.expires_at > datetime.utcnow()
+        assert session.expires_at > datetime.now(timezone.utc)
     
     def test_validate_session_cookie(self):
         """Test session cookie validation"""
@@ -148,11 +148,16 @@ class TestAuthService:
 
 class TestSecretManagerService:
     
-    def test_init(self):
+    @patch('app.services.secret_manager.secretmanager.SecretManagerServiceClient')
+    def test_init(self, mock_client_class):
         """Test SecretManagerService initialization"""
+        mock_client = Mock()
+        mock_client_class.return_value = mock_client
+        
         service = SecretManagerService()
-        assert service.client is not None
+        assert service._client is None  # Should be None initially
         assert service.project_id is not None
+        assert service.client is not None  # Should create client on access
     
     @patch('app.services.secret_manager.secretmanager.SecretManagerServiceClient')
     def test_store_refresh_token_success(self, mock_client_class):
@@ -173,10 +178,15 @@ class TestSecretManagerService:
         mock_client = Mock()
         mock_client_class.return_value = mock_client
         
+        # Mock the response
+        mock_response = Mock()
+        mock_response.payload.data.decode.return_value = "mock_refresh_token"
+        mock_client.access_secret_version.return_value = mock_response
+        
         service = SecretManagerService()
         result = service.get_refresh_token("test_user_id")
         
-        assert isinstance(result, (str, type(None)))
+        assert result == "mock_refresh_token"
     
     @patch('app.services.secret_manager.secretmanager.SecretManagerServiceClient')
     def test_delete_refresh_token_success(self, mock_client_class):
@@ -194,7 +204,7 @@ class TestAuthEndpoints:
     
     def test_auth_google_redirect(self, client):
         """Test Google OAuth initiation endpoint"""
-        response = client.get("/api/v1/auth/google")
+        response = client.get("/api/v1/auth/google", follow_redirects=False)
         
         assert response.status_code == 307  # Redirect
         assert "accounts.google.com" in response.headers["location"]
@@ -229,7 +239,7 @@ class TestAuthEndpoints:
     
     def test_logout(self, client):
         """Test logout endpoint"""
-        response = client.get("/api/v1/auth/logout")
+        response = client.get("/api/v1/auth/logout", follow_redirects=False)
         
         assert response.status_code == 307  # Redirect
         assert "session_id" in response.headers.get("set-cookie", "")
@@ -264,7 +274,7 @@ class TestAuthMiddleware:
         response = client.get("/docs")
         assert response.status_code == 200
     
-    @patch('app.core.auth.get_current_user')
+    @patch('app.core.middleware.get_current_user')
     def test_authenticated_request(self, mock_get_user, client):
         """Test authenticated request"""
         from app.models.user import User
@@ -296,7 +306,7 @@ class TestSessionManagement:
     def test_session_expiration(self, mock_user_session):
         """Test session expiration"""
         # Set session to expired
-        mock_user_session.expires_at = datetime.utcnow() - timedelta(hours=1)
+        mock_user_session.expires_at = datetime.now(timezone.utc) - timedelta(hours=1)
         session_store[mock_user_session.session_id] = mock_user_session
         
         # In a real implementation, this would be handled by the middleware

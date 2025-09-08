@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class User(BaseModel):
@@ -8,8 +8,8 @@ class User(BaseModel):
     name: str
     picture: str
     verified_email: bool = True
-    created_at: datetime = datetime.utcnow()
-    updated_at: datetime = datetime.utcnow()
+    created_at: datetime = datetime.now(timezone.utc)
+    updated_at: datetime = datetime.now(timezone.utc)
 
 
 class UserSession(BaseModel):
@@ -17,7 +17,7 @@ class UserSession(BaseModel):
     session_id: str
     access_token: str
     expires_at: datetime
-    created_at: datetime = datetime.utcnow()
+    created_at: datetime = datetime.now(timezone.utc)
     is_active: bool = True
 
 
