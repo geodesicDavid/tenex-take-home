@@ -3,7 +3,7 @@ from fastapi.security import HTTPBearer
 from typing import Optional, Dict
 import requests
 import secrets
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from urllib.parse import urlencode
 
 from app.core.config import settings
@@ -61,7 +61,7 @@ class AuthService:
                 token_type=token_data["token_type"]
             )
             
-        except requests.RequestException as e:
+        except Exception as e:
             print(f"Error exchanging code for tokens: {e}")
             return None
     
@@ -87,7 +87,7 @@ class AuthService:
                 verified_email=user_data["verified_email"]
             )
             
-        except requests.RequestException as e:
+        except Exception as e:
             print(f"Error getting user info: {e}")
             return None
     
@@ -120,7 +120,7 @@ class AuthService:
     def create_user_session(self, user: GoogleUserInfo, access_token: str) -> UserSession:
         """Create a user session"""
         session_id = self.create_session_id()
-        expires_at = datetime.utcnow() + timedelta(hours=self.session_expire_hours)
+        expires_at = datetime.now(timezone.utc) + timedelta(hours=self.session_expire_hours)
         
         return UserSession(
             user_id=user.id,
@@ -152,7 +152,7 @@ def get_current_user(request: Request) -> Optional[User]:
     if not session:
         return None
     
-    if session.expires_at < datetime.utcnow():
+    if session.expires_at < datetime.now(timezone.utc):
         del session_store[session_id]
         return None
     

@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.auth import router as auth_router
 from app.core.middleware import auth_middleware
-from app.core.auth import require_auth
+from app.core.middleware import require_auth
 
 app = FastAPI(
     title="Tenex Take Home API",

@@ -8,10 +8,10 @@ async def auth_middleware(request: Request, call_next: Callable):
     """Authentication middleware for protected routes"""
     # Skip authentication for certain paths
     excluded_paths = [
-        "/auth/google",
-        "/auth/google/callback",
-        "/auth/logout",
-        "/auth/status",
+        "/api/v1/auth/google",
+        "/api/v1/auth/google/callback",
+        "/api/v1/auth/logout",
+        "/api/v1/auth/status",
         "/health",
         "/",
         "/docs",
