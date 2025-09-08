@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "cd ../.. && npx eslint apps/web/src --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --config apps/web/.eslintrc.cjs",
     "test": "jest",
     "clean": "rm -rf dist"
   },
