@@ -23,7 +23,9 @@
       "Bash(rm:*)",
       "Bash(NODE_PATH=./node_modules npm run clean)",
       "Read(/Users/davidluciano/**)",
-      "Bash(ruff check:*)"
+      "Bash(ruff check:*)",
+      "Bash(git commit:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
