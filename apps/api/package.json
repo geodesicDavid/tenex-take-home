@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "source venv/bin/activate && PYTHONPATH=. uvicorn app.main:app --reload --host 0.0.0.0 --port 8000",
     "test": "source venv/bin/activate && PYTHONPATH=. pytest",
-    "lint": "source venv/bin/activate && ruff check app/",
+    "lint": "source venv/bin/activate && python -m ruff check app/",
     "clean": "rm -rf __pycache__ .pytest_cache"
   }
 }

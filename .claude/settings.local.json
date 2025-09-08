@@ -22,7 +22,8 @@
       "Bash(chmod:*)",
       "Bash(rm:*)",
       "Bash(NODE_PATH=./node_modules npm run clean)",
-      "Read(/Users/davidluciano/**)"
+      "Read(/Users/davidluciano/**)",
+      "Bash(ruff check:*)"
     ],
     "deny": [],
     "ask": []
