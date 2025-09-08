@@ -25,7 +25,9 @@
       "Read(/Users/davidluciano/**)",
       "Bash(ruff check:*)",
       "Bash(git commit:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(npm test)",
+      "Bash(PYTHONPATH=. pytest tests/test_auth.py::TestAuthEndpoints::test_auth_google_redirect -v -s)"
     ],
     "deny": [],
     "ask": []
