@@ -19,6 +19,7 @@ class UserSession(BaseModel):
     expires_at: datetime
     created_at: datetime = datetime.now(timezone.utc)
     is_active: bool = True
+    user_info: 'GoogleUserInfo' = None
 
 
 class GoogleTokens(BaseModel):

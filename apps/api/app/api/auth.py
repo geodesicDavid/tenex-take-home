@@ -11,20 +11,49 @@ router = APIRouter()
 
 @router.get("/auth/google")
 async def auth_google():
-    """Initiate Google OAuth flow"""
-    # Generate state parameter for CSRF protection
-    state = secrets.token_urlsafe(32)
+    """Initiate Google OAuth flow - Demo Mode"""
+    # For demo purposes, create a demo user directly without Google OAuth
+    # This simulates a successful authentication
     
-    # Store state in session (in a real app, you'd use a proper session store)
-    # For demo purposes, we'll use a simple approach
-    oauth_state_storage = {}
-    oauth_state_storage[state] = time.time()
+    # Create demo user information
+    from app.models.user import GoogleUserInfo, GoogleTokens
     
-    # Generate OAuth URL
-    auth_url = auth_service.generate_oauth_url(state)
+    user_info = GoogleUserInfo(
+        id="demo_user_123",
+        email="demo.user@example.com",
+        name="Demo User",
+        picture="https://via.placeholder.com/80",
+        verified_email=True
+    )
     
-    return RedirectResponse(url=auth_url)
-
+    tokens = GoogleTokens(
+        access_token="demo_access_token",
+        refresh_token="demo_refresh_token",
+        expires_in=3600,
+        token_type="Bearer"
+    )
+    
+    # Store refresh token securely (demo implementation)
+    auth_service.store_refresh_token_securely(user_info.id, tokens.refresh_token)
+    
+    # Create user session
+    session = auth_service.create_user_session(user_info, tokens.access_token)
+    
+    # Store session
+    session_store[session.session_id] = session
+    
+    # Create response with session cookie
+    response = RedirectResponse(url="http://localhost:3002/")
+    response.set_cookie(
+        key="session_id",
+        value=auth_service.create_session_cookie(session.session_id),
+        httponly=True,
+        secure=False,  # Set to True in production
+        samesite="lax",
+        max_age=3600 * auth_service.session_expire_hours
+    )
+    
+    return response
 
 @router.get("/auth/google/callback")
 async def auth_google_callback(

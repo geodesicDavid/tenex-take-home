@@ -1,17 +1,27 @@
-import { Box, Typography, Container } from "@mui/material";
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import LoginPage from './pages/LoginPage';
+import MainAppPage from './pages/MainAppPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Tenex Take Home
-        </Typography>
-        <Typography variant="body1">
-          Welcome to the Tenex take home project. This is the main application.
-        </Typography>
-      </Box>
-    </Container>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <MainAppPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
