@@ -26,3 +26,17 @@ export interface ApiResponse<T = any> {
   error?: string;
   message?: string;
 }
+
+export interface CalendarEvent {
+  id: string;
+  summary: string;
+  start: Date;
+  end: Date;
+  description?: string | null;
+}
+
+export interface CalendarEventResponse {
+  events: CalendarEvent[];
+  total_count: number;
+  time_range: string;
+}
