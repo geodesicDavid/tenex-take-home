@@ -2,6 +2,8 @@ import React from 'react';
 import { Box, Typography, Container, Grid } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
 import AuthComponent from '../components/AuthComponent';
+import CalendarContainer from '../components/layout/CalendarContainer';
+import ChatContainer from '../components/layout/ChatContainer';
 
 const MainAppPage: React.FC = () => {
   const { authState } = useAuth();
@@ -11,38 +13,54 @@ const MainAppPage: React.FC = () => {
   }
 
   return (
-    <Container maxWidth="lg">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Tenex Take Home - Main Application
+    <Container 
+      maxWidth="xl" 
+      sx={{ 
+        px: { xs: 2, sm: 3, md: 4 },
+        py: { xs: 2, sm: 3, md: 4 }
+      }}
+    >
+      <Box sx={{ mb: 4 }}>
+        <Typography 
+          variant="h3" 
+          component="h1" 
+          gutterBottom
+          sx={{ 
+            fontWeight: 700,
+            color: 'primary.main',
+            textAlign: { xs: 'center', sm: 'left' }
+          }}
+        >
+          Tenex Calendar & Chat
         </Typography>
-        <Typography variant="body1" paragraph>
-          Welcome to the main application! This is a placeholder for the calendar and chat interface.
+        <Typography 
+          variant="h6" 
+          component="p" 
+          color="text.secondary"
+          sx={{ 
+            textAlign: { xs: 'center', sm: 'left' },
+            mb: 3
+          }}
+        >
+          Manage your schedule and conversations in one place
         </Typography>
-        
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <Box sx={{ p: 2, border: '1px solid #ccc', borderRadius: 1 }}>
-              <Typography variant="h6" gutterBottom>
-                Calendar Section
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Calendar integration will be implemented here.
-              </Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Box sx={{ p: 2, border: '1px solid #ccc', borderRadius: 1 }}>
-              <Typography variant="h6" gutterBottom>
-                Chat Section
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Chat interface will be implemented here.
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
       </Box>
+      
+      <Grid 
+        container 
+        spacing={{ xs: 2, sm: 3, md: 4 }}
+        sx={{ 
+          minHeight: { xs: 'auto', md: '600px' },
+          alignItems: 'stretch'
+        }}
+      >
+        <Grid item xs={12} lg={8} xl={7}>
+          <CalendarContainer />
+        </Grid>
+        <Grid item xs={12} lg={4} xl={5}>
+          <ChatContainer />
+        </Grid>
+      </Grid>
     </Container>
   );
 };

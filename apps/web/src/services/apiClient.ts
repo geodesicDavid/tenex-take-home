@@ -34,7 +34,7 @@ apiClient.interceptors.response.use(
 export const authApi = {
   // Get current user info
   getCurrentUser: async (): Promise<User> => {
-    const response = await fetch('/api/auth/me', {
+    const response = await fetch('/api/v1/auth/me', {
       credentials: 'include',
     });
     
@@ -48,12 +48,12 @@ export const authApi = {
   // Login with Google OAuth
   loginWithGoogle: async (): Promise<void> => {
     // This redirects to Google OAuth
-    window.location.href = '/api/auth/google';
+    window.location.href = '/api/v1/auth/google';
   },
 
   // Logout
   logout: async (): Promise<void> => {
-    await fetch('/api/auth/logout', {
+    await fetch('/api/v1/auth/logout', {
       method: 'POST',
       credentials: 'include',
     });
@@ -62,7 +62,7 @@ export const authApi = {
   // Check authentication status
   checkAuthStatus: async (): Promise<boolean> => {
     try {
-      const response = await fetch('/api/auth/me', {
+      const response = await fetch('/api/v1/auth/me', {
         credentials: 'include',
       });
       return response.ok;

@@ -61,7 +61,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const checkAuthStatus = async () => {
     dispatch({ type: 'CHECK_AUTH_START' });
     try {
-      const response = await fetch('/api/auth/me', {
+      const response = await fetch('/api/v1/auth/me', {
         credentials: 'include',
       });
       

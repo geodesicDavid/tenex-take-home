@@ -7,12 +7,12 @@ const AuthComponent: React.FC = () => {
   const { authState, logout } = useAuth();
 
   const handleLogin = () => {
-    window.location.href = '/api/auth/google';
+    window.location.href = '/api/v1/auth/google';
   };
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/auth/logout', {
+      await fetch('/api/v1/auth/logout', {
         method: 'POST',
         credentials: 'include',
       });
