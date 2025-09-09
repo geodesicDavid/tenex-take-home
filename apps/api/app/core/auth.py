@@ -126,12 +126,8 @@ class AuthService:
             user_id=user.id,
             session_id=session_id,
             access_token=access_token,
-<<<<<<< HEAD
-            expires_at=expires_at
-=======
             expires_at=expires_at,
             user_info=user  # Store the actual user info
->>>>>>> dev-story-1.3
         )
 
 
@@ -161,15 +157,6 @@ def get_current_user(request: Request) -> Optional[User]:
         del session_store[session_id]
         return None
     
-<<<<<<< HEAD
-    # For demo purposes, we'll create a minimal user object
-    # In a real app, you'd fetch this from a database
-    return User(
-        id=session.user_id,
-        email="user@example.com",  # This would come from the stored user data
-        name="User Name",          # This would come from the stored user data
-        picture="https://example.com/avatar.jpg"  # This would come from the stored user data
-=======
     # Use the stored user info from Google
     if session.user_info:
         return User(
@@ -186,7 +173,6 @@ def get_current_user(request: Request) -> Optional[User]:
         email="user@example.com",
         name="User Name",
         picture="https://example.com/avatar.jpg"
->>>>>>> dev-story-1.3
     )
 
 

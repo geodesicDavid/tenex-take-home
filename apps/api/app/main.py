@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.auth import router as auth_router
+from app.api.calendar import router as calendar_router
 from app.core.middleware import auth_middleware
 from app.core.middleware import require_auth
 
@@ -13,11 +14,7 @@ app = FastAPI(
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-<<<<<<< HEAD
-    allow_origins=["http://localhost:3000"],  # Frontend URL
-=======
     allow_origins=["http://localhost:3002"],  # Frontend URL
->>>>>>> dev-story-1.3
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -28,8 +25,9 @@ app.add_middleware(
 async def auth_middleware_wrapper(request: Request, call_next):
     return await auth_middleware(request, call_next)
 
-# Include auth routes
+# Include routes
 app.include_router(auth_router, prefix="/api/v1")
+app.include_router(calendar_router)
 
 @app.get("/")
 async def root():

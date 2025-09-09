@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, timezone
 from app.main import app
 from app.core.auth import AuthService, auth_service, session_store
 from app.models.user import GoogleUserInfo, GoogleTokens, UserSession
-from app.services.secret_manager import SecretManagerService
+from app.services.secret_manager import MockSecretManagerService
 
 
 @pytest.fixture
@@ -146,33 +146,33 @@ class TestAuthService:
         assert result == session_id
 
 
-class TestSecretManagerService:
+class TestMockSecretManagerService:
     
-    @patch('app.services.secret_manager.secretmanager.SecretManagerServiceClient')
+    @patch('app.services.secret_manager.secretmanager.MockSecretManagerServiceClient')
     def test_init(self, mock_client_class):
-        """Test SecretManagerService initialization"""
+        """Test MockSecretManagerService initialization"""
         mock_client = Mock()
         mock_client_class.return_value = mock_client
         
-        service = SecretManagerService()
+        service = MockSecretManagerService()
         assert service._client is None  # Should be None initially
         assert service.project_id is not None
         assert service.client is not None  # Should create client on access
     
-    @patch('app.services.secret_manager.secretmanager.SecretManagerServiceClient')
+    @patch('app.services.secret_manager.secretmanager.MockSecretManagerServiceClient')
     def test_store_refresh_token_success(self, mock_client_class):
         """Test successful refresh token storage"""
         mock_client = Mock()
         mock_client_class.return_value = mock_client
         
-        service = SecretManagerService()
+        service = MockSecretManagerService()
         result = service.store_refresh_token("test_user_id", "test_refresh_token")
         
         # Since we're mocking, the actual implementation might fail
         # In a real test, we'd mock the Google Cloud API calls properly
         assert isinstance(result, bool)
     
-    @patch('app.services.secret_manager.secretmanager.SecretManagerServiceClient')
+    @patch('app.services.secret_manager.secretmanager.MockSecretManagerServiceClient')
     def test_get_refresh_token_success(self, mock_client_class):
         """Test successful refresh token retrieval"""
         mock_client = Mock()
@@ -183,18 +183,18 @@ class TestSecretManagerService:
         mock_response.payload.data.decode.return_value = "mock_refresh_token"
         mock_client.access_secret_version.return_value = mock_response
         
-        service = SecretManagerService()
+        service = MockSecretManagerService()
         result = service.get_refresh_token("test_user_id")
         
         assert result == "mock_refresh_token"
     
-    @patch('app.services.secret_manager.secretmanager.SecretManagerServiceClient')
+    @patch('app.services.secret_manager.secretmanager.MockSecretManagerServiceClient')
     def test_delete_refresh_token_success(self, mock_client_class):
         """Test successful refresh token deletion"""
         mock_client = Mock()
         mock_client_class.return_value = mock_client
         
-        service = SecretManagerService()
+        service = MockSecretManagerService()
         result = service.delete_refresh_token("test_user_id")
         
         assert isinstance(result, bool)
