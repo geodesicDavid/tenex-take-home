@@ -74,7 +74,7 @@ async def auth_google_callback(
     session_store[session.session_id] = session
     
     # Create response with session cookie
-    response = RedirectResponse(url="/")
+    response = RedirectResponse(url="http://localhost:3001")
     response.set_cookie(
         key="session_id",
         value=auth_service.create_session_cookie(session.session_id),
@@ -103,7 +103,7 @@ async def auth_logout(request: Request):
                 del session_store[session_id]
     
     # Clear session cookie
-    response = RedirectResponse(url="/")
+    response = RedirectResponse(url="http://localhost:3001")
     response.delete_cookie("session_id")
     
     return response

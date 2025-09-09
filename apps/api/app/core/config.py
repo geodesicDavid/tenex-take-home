@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     # OAuth Configuration
     google_oauth_client_id: str = "test_client_id"
     google_oauth_client_secret: str = "test_client_secret"
-    google_oauth_redirect_uri: str = "http://localhost:8000/auth/google/callback"
+    google_oauth_redirect_uri: str = "http://localhost:8001/api/v1/auth/google/callback"
     
     # Google Cloud Configuration
     google_cloud_project_id: str = "test_project_id"
