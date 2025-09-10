@@ -1,9 +1,9 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { ChatComponent } from '../ChatComponent';
-import { useChatMessages } from '../../hooks/useChatMessages';
+import { useChatMessages } from '@/hooks/useChatMessages';
 
 // Mock the useChatMessages hook
-jest.mock('../../hooks/useChatMessages');
+jest.mock('@/hooks/useChatMessages');
 
 const mockUseChatMessages = useChatMessages as jest.MockedFunction<typeof useChatMessages>;
 

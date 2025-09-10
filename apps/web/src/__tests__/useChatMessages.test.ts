@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { useChatMessages } from '../useChatMessages';
+import { useChatMessages } from '@/hooks/useChatMessages';
 import { sendMessage } from '../services/chatService';
 
 // Mock the chat service
