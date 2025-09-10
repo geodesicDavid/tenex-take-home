@@ -30,8 +30,8 @@ export interface ApiResponse<T = any> {
 export interface CalendarEvent {
   id: string;
   summary: string;
-  start: Date;
-  end: Date;
+  start: Date | string;
+  end: Date | string;
   description?: string | null;
 }
 

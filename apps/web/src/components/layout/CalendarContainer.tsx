@@ -1,11 +1,15 @@
 import React from 'react';
 import { Box, Typography, Paper } from '@mui/material';
+import { useCalendarEvents } from '../../hooks/useCalendarEvents';
+import CalendarEventList from '../CalendarEventList';
 
 interface CalendarContainerProps {
   children?: React.ReactNode;
 }
 
 const CalendarContainer: React.FC<CalendarContainerProps> = ({ children }) => {
+  const { events, loading, error, refetch } = useCalendarEvents();
+
   return (
     <Paper 
       elevation={2} 
@@ -30,11 +34,16 @@ const CalendarContainer: React.FC<CalendarContainerProps> = ({ children }) => {
         Calendar
       </Typography>
       
-      <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        {children || (
-          <Typography variant="body1" color="text.secondary" align="center">
-            Calendar integration will be implemented here.
-          </Typography>
+      <Box sx={{ flex: 1, overflowY: 'auto' }}>
+        {children ? (
+          children
+        ) : (
+          <CalendarEventList 
+            events={events} 
+            loading={loading} 
+            error={error} 
+            onRetry={refetch} 
+          />
         )}
       </Box>
     </Paper>

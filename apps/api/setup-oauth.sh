@@ -20,7 +20,7 @@ echo "2. Create a new project or select an existing one"
 echo "3. Go to 'APIs & Services' > 'Credentials'"
 echo "4. Click 'Create Credentials' > 'OAuth client ID'"
 echo "5. Select 'Web application' as application type"
-echo "6. Add authorized redirect URI: http://localhost:8001/api/v1/auth/google/callback"
+echo "6. Add authorized redirect URI: http://localhost:8000/api/v1/auth/google/callback"
 echo "7. Copy the Client ID and Client Secret"
 echo ""
 
@@ -36,7 +36,7 @@ cat > .env << EOF
 # Google OAuth Configuration
 GOOGLE_OAUTH_CLIENT_ID=$client_id
 GOOGLE_OAUTH_CLIENT_SECRET=$client_secret
-GOOGLE_OAUTH_REDIRECT_URI=http://localhost:8001/api/v1/auth/google/callback
+GOOGLE_OAUTH_REDIRECT_URI=http://localhost:8000/api/v1/auth/google/callback
 
 # Google Cloud Configuration
 GOOGLE_CLOUD_PROJECT_ID=
@@ -56,11 +56,11 @@ echo ""
 echo "✅ .env file created successfully!"
 echo ""
 echo "🔧 Your backend should automatically restart with the new configuration."
-echo "🌐 Frontend: http://localhost:3001"
-echo "🔗 Backend: http://localhost:8001"
-echo "📚 API Docs: http://localhost:8001/docs"
+echo "🌐 Frontend: http://localhost:3000"
+echo "🔗 Backend: http://localhost:8000"
+echo "📚 API Docs: http://localhost:8000/docs"
 echo ""
 echo "🚀 You can now test the Google OAuth login flow!"
 echo ""
 echo "Note: Make sure you've added the redirect URI in your Google Cloud Console:"
-echo "http://localhost:8001/api/v1/auth/google/callback"
+echo "http://localhost:8000/api/v1/auth/google/callback"
