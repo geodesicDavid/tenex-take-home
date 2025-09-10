@@ -32,32 +32,21 @@ class StreamingUtils:
             Formatted SSE (Server-Sent Events) chunks
         """
         try:
-            # Send initial metadata
-            metadata = {
-                "id": response_id,
-                "type": "metadata",
-                "timestamp": datetime.now().isoformat(),
-                "calendar_context_included": calendar_context_included,
-                "event_count": event_count
-            }
-            yield f"data: {json.dumps(metadata)}\n\n"
-            
             # Stream response chunks
             async for chunk in response_generator:
                 if chunk:
                     chunk_data = {
                         "id": response_id,
-                        "type": "chunk",
                         "content": chunk,
-                        "timestamp": datetime.now().isoformat()
+                        "isComplete": False
                     }
                     yield f"data: {json.dumps(chunk_data)}\n\n"
             
             # Send completion signal
             completion_data = {
                 "id": response_id,
-                "type": "complete",
-                "timestamp": datetime.now().isoformat()
+                "content": "",
+                "isComplete": True
             }
             yield f"data: {json.dumps(completion_data)}\n\n"
             
@@ -66,9 +55,9 @@ class StreamingUtils:
             # Send error message
             error_data = {
                 "id": response_id,
-                "type": "error",
-                "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "content": "",
+                "isComplete": True,
+                "error": str(e)
             }
             yield f"data: {json.dumps(error_data)}\n\n"
     

@@ -29,7 +29,7 @@ class LLMService:
                 raise ValueError("GOOGLE_GEMINI_API_KEY not configured")
             
             genai.configure(api_key=self.api_key)
-            self.model = genai.GenerativeModel('gemini-pro')
+            self.model = genai.GenerativeModel('gemini-2.0-flash-lite')
             logger.info("Gemini client initialized successfully")
         except Exception as e:
             logger.error(f"Failed to initialize Gemini client: {str(e)}")
@@ -98,6 +98,7 @@ class LLMService:
     async def _stream_response(self, prompt: str, generation_config: Dict[str, Any]) -> AsyncGenerator[str, None]:
         """Stream response from Gemini model."""
         try:
+            # Create the streaming response in executor
             response = await asyncio.wait_for(
                 asyncio.get_event_loop().run_in_executor(
                     None,
@@ -106,13 +107,22 @@ class LLMService:
                 timeout=self.timeout
             )
             
-            async for chunk in response:
-                if hasattr(chunk, 'text') and chunk.text:
-                    yield chunk.text
-                elif hasattr(chunk, 'parts'):
-                    for part in chunk.parts:
-                        if hasattr(part, 'text') and part.text:
-                            yield part.text
+            # Process the streaming response synchronously within the executor
+            def process_stream():
+                chunks = []
+                for chunk in response:
+                    if hasattr(chunk, 'text') and chunk.text:
+                        chunks.append(chunk.text)
+                    elif hasattr(chunk, 'parts'):
+                        for part in chunk.parts:
+                            if hasattr(part, 'text') and part.text:
+                                chunks.append(part.text)
+                return chunks
+            
+            # Get all chunks and yield them
+            chunks = await asyncio.get_event_loop().run_in_executor(None, process_stream)
+            for chunk_text in chunks:
+                yield chunk_text
                             
         except asyncio.TimeoutError:
             raise
@@ -136,7 +146,7 @@ class LLMService:
     def get_model_info(self) -> Dict[str, Any]:
         """Get information about the configured model."""
         return {
-            "model_name": "gemini-pro",
+            "model_name": "gemini-2.0-flash-lite",
             "api_key_configured": bool(self.api_key),
             "max_retries": self.max_retries,
             "timeout": self.timeout

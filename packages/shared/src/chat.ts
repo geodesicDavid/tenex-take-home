@@ -3,6 +3,9 @@ export interface ChatMessage {
   text: string;
   sender: "user" | "agent";
   timestamp: Date;
+  isStreaming?: boolean;
+  isComplete?: boolean;
+  error?: string;
 }
 
 export interface ChatRequest {
@@ -12,5 +15,20 @@ export interface ChatRequest {
 
 export interface ChatResponse {
   response: string;
+  timestamp: Date;
+}
+
+export interface StreamingChunk {
+  id: string;
+  content: string;
+  isComplete: boolean;
+  error?: string;
+}
+
+export interface StreamingMessage {
+  id: string;
+  content: string;
+  isComplete: boolean;
+  error?: string;
   timestamp: Date;
 }

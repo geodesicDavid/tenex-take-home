@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { ChatMessage } from '@tenex/shared';
-import { sendMessage } from '../services/chatService';
+import { ChatMessage, StreamingChunk } from '@tenex/shared';
+import { sendMessageStreaming } from '../services/chatService';
 
 export const useChatMessages = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -10,9 +10,20 @@ export const useChatMessages = () => {
   const addMessage = useCallback((message: Omit<ChatMessage, 'id'>) => {
     const newMessage: ChatMessage = {
       ...message,
-      id: Date.now().toString(),
+      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     };
     setMessages(prev => [...prev, newMessage]);
+  }, []);
+
+  const updateMessage = useCallback((messageId: string, updates: Partial<ChatMessage> | ((prev: ChatMessage) => Partial<ChatMessage>)) => {
+    setMessages(prev => 
+      prev.map(msg => 
+        msg.id === messageId ? { 
+          ...msg, 
+          ...(typeof updates === 'function' ? updates(msg) : updates) 
+        } : msg
+      )
+    );
   }, []);
 
   const sendUserMessage = useCallback(async (text: string) => {
@@ -29,22 +40,52 @@ export const useChatMessages = () => {
     setError(null);
 
     try {
-      const response = await sendMessage(text.trim());
-      
-      const agentMessage: Omit<ChatMessage, 'id'> = {
-        text: response.response,
+      const agentMessage: ChatMessage = {
+        id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        text: '',
         sender: 'agent',
-        timestamp: new Date(response.timestamp),
+        timestamp: new Date(),
+        isStreaming: true,
+        isComplete: false,
       };
-      
+
       addMessage(agentMessage);
+      const agentMessageId = agentMessage.id;
+
+      await sendMessageStreaming(
+        text.trim(),
+        (chunk: StreamingChunk) => {
+          if (chunk.isComplete) {
+            updateMessage(agentMessageId, {
+              isStreaming: false,
+              isComplete: true,
+            });
+            setIsLoading(false);
+            return;
+          }
+
+          if (chunk.content) {
+            updateMessage(agentMessageId, (prev) => ({
+              text: prev.text + chunk.content,
+            }));
+          }
+        },
+        (err: Error) => {
+          updateMessage(agentMessageId, {
+            isStreaming: false,
+            isComplete: false,
+            error: err.message,
+          });
+          setError('Streaming failed. Please try again.');
+          setIsLoading(false);
+        }
+      );
     } catch (err) {
       setError('Failed to send message. Please try again.');
       console.error('Error sending message:', err);
-    } finally {
       setIsLoading(false);
     }
-  }, [addMessage]);
+  }, [addMessage, updateMessage]);
 
   const clearMessages = useCallback(() => {
     setMessages([]);

@@ -47,7 +47,7 @@ trap cleanup SIGINT
 echo ""
 echo "Development servers are running:"
 echo "- Shared TypeScript compiler: PID $SHARED_PID"
-echo "- Web development server: PID $WEB_PID (http://localhost:5173)"
+echo "- Web development server: PID $WEB_PID (http://localhost:3000)"
 if [ ! -z "$API_PID" ]; then
     echo "- API development server: PID $API_PID (http://localhost:8000)"
 fi

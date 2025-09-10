@@ -45,6 +45,6 @@ jobs:
 
 | Environment | Frontend URL                           | Backend URL                                | Purpose                |
 | :---------- | :------------------------------------- | :----------------------------------------- | :--------------------- |
-| Development | http://localhost:5173                  | http://localhost:8000                      | Local development      |
+| Development | http://localhost:3000                  | http://localhost:8000                      | Local development      |
 | Staging     | `https://cal-agent-staging.vercel.app` | `https://cal-agent-staging.vercel.app/api` | Pre-production testing |
 | Production  | `https://cal-agent.vercel.app`         | `https://cal-agent.vercel.app/api`         | Live environment       |

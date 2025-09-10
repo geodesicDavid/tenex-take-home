@@ -25,7 +25,7 @@ const ChatComponent: React.FC = () => {
   return (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* Message List */}
-      <ChatMessageList messages={messages} />
+      <ChatMessageList messages={messages} isLoading={isLoading} />
 
       {/* Error Display */}
       {error && (
@@ -86,19 +86,9 @@ const ChatComponent: React.FC = () => {
             <SendIcon />
           </Button>
         </Box>
-        {isLoading && (
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ mt: 1, display: 'block', textAlign: 'center' }}
-          >
-            Sending...
-          </Typography>
-        )}
       </Box>
     </Box>
   );
 };
 
 export default ChatComponent;
-export { ChatComponent };
