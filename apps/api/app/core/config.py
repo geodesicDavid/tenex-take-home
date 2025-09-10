@@ -1,5 +1,10 @@
 from pydantic_settings import BaseSettings
 from typing import List
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 class Settings(BaseSettings):
@@ -11,6 +16,9 @@ class Settings(BaseSettings):
     # Google Cloud Configuration
     google_cloud_project_id: str = "test_project_id"
     google_cloud_credentials_path: str = "test_credentials_path"
+    
+    # Google Gemini API Configuration
+    google_gemini_api_key: str = "test_gemini_api_key"
     
     # Application Configuration
     app_name: str = "Tenex Take Home API"

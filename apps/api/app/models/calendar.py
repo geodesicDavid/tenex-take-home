@@ -6,9 +6,11 @@ from typing import Optional, List
 class CalendarEvent(BaseModel):
     id: str
     summary: str
-    start: datetime
-    end: datetime
+    start_time: datetime
+    end_time: datetime
     description: Optional[str] = None
+    location: Optional[str] = None
+    attendees: Optional[List[dict]] = None
 
 
 class CalendarEventResponse(BaseModel):

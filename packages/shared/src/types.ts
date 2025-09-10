@@ -25,9 +25,16 @@ export interface ApiResponse<T = any> {
 export interface CalendarEvent {
   id: string;
   summary: string;
-  start: Date | string;
-  end: Date | string;
+  start_time: Date | string;
+  end_time: Date | string;
   description?: string | null;
+  location?: string | null;
+  attendees?: Array<{
+    email: string;
+    displayName?: string;
+    self?: boolean;
+    responseStatus?: string;
+  }>;
 }
 
 export interface CalendarEventResponse {

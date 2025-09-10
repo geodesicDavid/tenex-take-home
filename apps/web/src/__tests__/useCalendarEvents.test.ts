@@ -9,8 +9,8 @@ const mockEvents: CalendarEvent[] = [
   {
     id: '1',
     summary: 'Test Event',
-    start: new Date('2024-01-01T10:00:00'),
-    end: new Date('2024-01-01T11:00:00'),
+    start_time: new Date('2024-01-01T10:00:00'),
+    end_time: new Date('2024-01-01T11:00:00'),
     description: 'Test description'
   }
 ];

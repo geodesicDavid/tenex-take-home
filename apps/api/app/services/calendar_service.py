@@ -153,9 +153,11 @@ class CalendarService:
             return CalendarEvent(
                 id=google_event["id"],
                 summary=google_event.get("summary", "Untitled Event"),
-                start=start_time,
-                end=end_time,
-                description=google_event.get("description")
+                start_time=start_time,
+                end_time=end_time,
+                description=google_event.get("description"),
+                location=google_event.get("location"),
+                attendees=google_event.get("attendees", [])
             )
             
         except Exception as e:
