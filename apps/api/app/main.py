@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.auth import router as auth_router
 from app.api.calendar import router as calendar_router
+from app.api.chat import router as chat_router
 from app.core.middleware import auth_middleware
 from app.core.middleware import require_auth
 
@@ -28,6 +29,7 @@ async def auth_middleware_wrapper(request: Request, call_next):
 # Include routes
 app.include_router(auth_router, prefix="/api/v1")
 app.include_router(calendar_router)
+app.include_router(chat_router)
 
 @app.get("/")
 async def root():

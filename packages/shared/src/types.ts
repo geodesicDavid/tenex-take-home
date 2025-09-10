@@ -1,9 +1,4 @@
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  picture?: string;
-}
+import { User } from './auth';
 
 export interface AuthState {
   user: User | null;
