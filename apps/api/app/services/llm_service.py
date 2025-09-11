@@ -98,31 +98,17 @@ class LLMService:
     async def _stream_response(self, prompt: str, generation_config: Dict[str, Any]) -> AsyncGenerator[str, None]:
         """Stream response from Gemini model."""
         try:
-            # Create the streaming response in executor
-            response = await asyncio.wait_for(
-                asyncio.get_event_loop().run_in_executor(
-                    None,
-                    lambda: self.model.generate_content(prompt, generation_config=generation_config, stream=True)
-                ),
-                timeout=self.timeout
-            )
+            # Create the streaming response
+            response = self.model.generate_content(prompt, generation_config=generation_config, stream=True)
             
-            # Process the streaming response synchronously within the executor
-            def process_stream():
-                chunks = []
-                for chunk in response:
-                    if hasattr(chunk, 'text') and chunk.text:
-                        chunks.append(chunk.text)
-                    elif hasattr(chunk, 'parts'):
-                        for part in chunk.parts:
-                            if hasattr(part, 'text') and part.text:
-                                chunks.append(part.text)
-                return chunks
-            
-            # Get all chunks and yield them
-            chunks = await asyncio.get_event_loop().run_in_executor(None, process_stream)
-            for chunk_text in chunks:
-                yield chunk_text
+            # Process the streaming response and yield chunks as they arrive
+            for chunk in response:
+                if hasattr(chunk, 'text') and chunk.text:
+                    yield chunk.text
+                elif hasattr(chunk, 'parts'):
+                    for part in chunk.parts:
+                        if hasattr(part, 'text') and part.text:
+                            yield part.text
                             
         except asyncio.TimeoutError:
             raise

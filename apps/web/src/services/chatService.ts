@@ -7,7 +7,9 @@ export const sendMessage = async (message: string): Promise<ChatResponse> => {
     timestamp: new Date(),
   };
   
-  const response = await apiClient.post('/chat', request);
+  const response = await apiClient.post('/chat', request, {
+    withCredentials: true,
+  });
   return response.data;
 };
 
@@ -27,6 +29,7 @@ export const sendMessageStreaming = async (
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
       body: JSON.stringify(request),
     });
 

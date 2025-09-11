@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Streaming Test</title>
+</head>
+<body>
+    <h1>Streaming Test</h1>
+    <div id="messages"></div>
+    <script>
+        async function testStreaming() {
+            const messagesDiv = document.getElementById('messages');
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/chat/test-stream-real', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: 'Hello',
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    
+                    if (done) {
+                        messagesDiv.innerHTML += '<p><strong>Stream completed</strong></p>';
+                        break;
+                    }
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n').filter(line => line.trim());
+                    
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const data = line.slice(6);
+                            messagesDiv.innerHTML += `<p>Received: ${data}</p>`;
+                            
+                            if (data === '[DONE]') {
+                                messagesDiv.innerHTML += '<p><strong>Received [DONE] signal</strong></p>';
+                                return;
+                            }
+                            
+                            try {
+                                const parsedChunk = JSON.parse(data);
+                                messagesDiv.innerHTML += `<p>Parsed chunk: ${JSON.stringify(parsedChunk)}</p>`;
+                                
+                                if (parsedChunk.isComplete) {
+                                    messagesDiv.innerHTML += '<p><strong>Received isComplete=true signal</strong></p>';
+                                }
+                            } catch (parseError) {
+                                messagesDiv.innerHTML += `<p>Error parsing: ${parseError.message}</p>`;
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                messagesDiv.innerHTML += `<p>Error: ${error.message}</p>`;
+            } finally {
+                if (reader) {
+                    reader.releaseLock();
+                }
+            }
+        }
+
+        // Start the test
+        testStreaming();
+    </script>
+</body>
+</html>

@@ -12,6 +12,8 @@ async def auth_middleware(request: Request, call_next: Callable):
         "/api/v1/auth/google/callback",
         "/api/v1/auth/logout",
         "/api/v1/auth/status",
+        "/api/chat/test-stream",
+        "/api/chat/test-stream-real",
         "/health",
         "/",
         "/docs",

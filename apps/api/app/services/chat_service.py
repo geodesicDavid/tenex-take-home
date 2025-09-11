@@ -86,7 +86,15 @@ class ChatService:
         try:
             # Validate the message
             if not await self.validate_message(request.message):
-                yield "I'm sorry, but your message appears to be invalid."
+                # Yield an error chunk in the correct format
+                error_chunk = {
+                    "id": "error",
+                    "content": "I'm sorry, but your message appears to be invalid.",
+                    "isComplete": True,
+                    "error": "Invalid message"
+                }
+                import json
+                yield f"data: {json.dumps(error_chunk)}\n\n"
                 return
             
             # Get calendar context if requested
@@ -103,16 +111,40 @@ class ChatService:
             )
             
             # Generate streaming response from LLM
+            import json
+            chunk_count = 0
             async for chunk in self.llm_service.generate_response(
                 prompt=prompt,
                 temperature=0.7,
                 stream=True
             ):
-                yield chunk
+                if chunk:
+                    streaming_chunk = {
+                        "id": f"chunk-{chunk_count}",
+                        "content": chunk,
+                        "isComplete": False
+                    }
+                    yield f"data: {json.dumps(streaming_chunk)}\n\n"
+                    chunk_count += 1
+            
+            # Send completion signal
+            completion_chunk = {
+                "id": "complete",
+                "content": "",
+                "isComplete": True
+            }
+            yield f"data: {json.dumps(completion_chunk)}\n\n"
                 
         except Exception as e:
             logger.error(f"Error processing streaming chat message: {str(e)}")
-            yield "I'm sorry, I'm having trouble processing your message right now."
+            import json
+            error_chunk = {
+                "id": "error",
+                "content": "I'm sorry, I'm having trouble processing your message right now.",
+                "isComplete": True,
+                "error": str(e)
+            }
+            yield f"data: {json.dumps(error_chunk)}\n\n"
     
     async def _get_calendar_context(self, user_id: str) -> List[CalendarEvent]:
         """

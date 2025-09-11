@@ -78,6 +78,48 @@ async def test_chat_message_streaming(
         )
 
 
+@router.post("/test-stream-real")
+async def test_chat_message_streaming_real(
+    request: Request,
+    chat_request: ChatRequest
+):
+    """
+    Test endpoint for streaming chat responses without authentication using real LLM.
+    """
+    try:
+        from app.models.user import User
+        from fastapi.responses import StreamingResponse
+        import json
+        
+        # Create a mock user for testing
+        mock_user = User(
+            id="test-user-id",
+            email="test@example.com",
+            name="Test User",
+            picture=None
+        )
+        
+        # Create streaming response
+        response_generator = chat_service.process_message_streaming(chat_request, mock_user)
+        
+        return StreamingResponse(
+            response_generator,
+            media_type="text/event-stream",
+            headers={
+                "Cache-Control": "no-cache",
+                "Connection": "keep-alive",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "*",
+            }
+        )
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"An error occurred while processing your message: {str(e)}"
+        )
+
+
 @router.post("/stream")
 async def send_chat_message_streaming(
     request: Request,

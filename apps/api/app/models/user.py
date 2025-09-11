@@ -1,12 +1,13 @@
 from pydantic import BaseModel
 from datetime import datetime, timezone
+from typing import Optional
 
 
 class User(BaseModel):
     id: str
     email: str
     name: str
-    picture: str
+    picture: Optional[str] = None
     verified_email: bool = True
     created_at: datetime = datetime.now(timezone.utc)
     updated_at: datetime = datetime.now(timezone.utc)

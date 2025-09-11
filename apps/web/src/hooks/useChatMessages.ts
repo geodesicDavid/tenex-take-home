@@ -13,6 +13,7 @@ export const useChatMessages = () => {
       id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     };
     setMessages(prev => [...prev, newMessage]);
+    return newMessage.id;
   }, []);
 
   const updateMessage = useCallback((messageId: string, updates: Partial<ChatMessage> | ((prev: ChatMessage) => Partial<ChatMessage>)) => {
@@ -40,8 +41,7 @@ export const useChatMessages = () => {
     setError(null);
 
     try {
-      const agentMessage: ChatMessage = {
-        id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      const agentMessage: Omit<ChatMessage, 'id'> = {
         text: '',
         sender: 'agent',
         timestamp: new Date(),
@@ -49,8 +49,7 @@ export const useChatMessages = () => {
         isComplete: false,
       };
 
-      addMessage(agentMessage);
-      const agentMessageId = agentMessage.id;
+      const agentMessageId = addMessage(agentMessage);
 
       await sendMessageStreaming(
         text.trim(),
