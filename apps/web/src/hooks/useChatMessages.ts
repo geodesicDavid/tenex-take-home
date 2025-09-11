@@ -17,14 +17,21 @@ export const useChatMessages = () => {
   }, []);
 
   const updateMessage = useCallback((messageId: string, updates: Partial<ChatMessage> | ((prev: ChatMessage) => Partial<ChatMessage>)) => {
-    setMessages(prev => 
-      prev.map(msg => 
-        msg.id === messageId ? { 
-          ...msg, 
-          ...(typeof updates === 'function' ? updates(msg) : updates) 
-        } : msg
-      )
-    );
+    setMessages(prev => {
+      const updatedMessages = prev.map(msg => {
+        if (msg.id === messageId) {
+          const updatedMsg = {
+            ...msg,
+            ...(typeof updates === 'function' ? updates(msg) : updates)
+          };
+          console.log('Updating message:', msg.id, 'with updates:', updates, 'result:', updatedMsg);
+          console.log('New text:', updatedMsg.text);
+          return updatedMsg;
+        }
+        return msg;
+      });
+      return updatedMessages;
+    });
   }, []);
 
   const sendUserMessage = useCallback(async (text: string) => {
@@ -54,7 +61,11 @@ export const useChatMessages = () => {
       await sendMessageStreaming(
         text.trim(),
         (chunk: StreamingChunk) => {
+          console.log('Received chunk:', chunk);
+          console.log('Chunk content:', chunk.content);
+          console.log('Chunk isComplete:', chunk.isComplete);
           if (chunk.isComplete) {
+            console.log('Completion chunk received, updating message and setting isLoading to false');
             updateMessage(agentMessageId, {
               isStreaming: false,
               isComplete: true,
@@ -64,12 +75,14 @@ export const useChatMessages = () => {
           }
 
           if (chunk.content) {
+            console.log('Content chunk received, updating message text:', chunk.content);
             updateMessage(agentMessageId, (prev) => ({
               text: prev.text + chunk.content,
             }));
           }
         },
         (err: Error) => {
+          console.error('Streaming error:', err);
           updateMessage(agentMessageId, {
             isStreaming: false,
             isComplete: false,

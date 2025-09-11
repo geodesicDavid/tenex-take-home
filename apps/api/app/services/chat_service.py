@@ -73,6 +73,49 @@ class ChatService:
                 event_count=0
             )
     
+    async def process_message_streaming_plain(
+        self, 
+        request: ChatRequest, 
+        user: User
+    ) -> AsyncGenerator[str, None]:
+        """
+        Process a chat message and return a streaming response with plain text chunks.
+        
+        This function yields plain text chunks for use with streaming utilities.
+        Integrates with LLM and calendar services to provide intelligent responses.
+        """
+        try:
+            # Validate the message
+            if not await self.validate_message(request.message):
+                yield "I'm sorry, but your message appears to be invalid."
+                return
+            
+            # Get calendar context if requested
+            calendar_events = []
+            if request.include_calendar_context:
+                calendar_events = await self._get_calendar_context(user.id)
+            
+            # Build prompt with calendar context
+            prompt = self.prompt_builder.build_chat_prompt(
+                user_message=request.message,
+                calendar_events=calendar_events,
+                conversation_history=request.conversation_history,
+                current_time=datetime.now()
+            )
+            
+            # Generate streaming response from LLM
+            async for chunk in self.llm_service.generate_response(
+                prompt=prompt,
+                temperature=0.7,
+                stream=True
+            ):
+                if chunk:
+                    yield chunk
+                
+        except Exception as e:
+            logger.error(f"Error processing streaming chat message: {str(e)}")
+            yield "I'm sorry, I'm having trouble processing your message right now."
+
     async def process_message_streaming(
         self, 
         request: ChatRequest, 
@@ -81,6 +124,7 @@ class ChatService:
         """
         Process a chat message and return a streaming response.
         
+        This function yields SSE formatted chunks for direct use with StreamingResponse.
         Integrates with LLM and calendar services to provide intelligent responses.
         """
         try:

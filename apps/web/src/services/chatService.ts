@@ -69,9 +69,11 @@ export const sendMessageStreaming = async (
             
             try {
               const parsedChunk = JSON.parse(data);
+              console.log('Parsed chunk:', parsedChunk);
               onChunk(parsedChunk);
             } catch (parseError) {
               console.error('Error parsing streaming chunk:', parseError);
+              console.log('Raw data that failed to parse:', data);
             }
           }
         }

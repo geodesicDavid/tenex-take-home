@@ -139,7 +139,7 @@ async def send_chat_message_streaming(
             calendar_events = await chat_service._get_calendar_context(user.id)
         
         # Create streaming response
-        response_generator = chat_service.process_message_streaming(chat_request, user)
+        response_generator = chat_service.process_message_streaming_plain(chat_request, user)
         
         return streaming_utils.create_streaming_response(
             response_generator=response_generator,
