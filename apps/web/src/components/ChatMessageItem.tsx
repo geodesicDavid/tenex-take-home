@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Box, Typography, Paper, Avatar, CircularProgress } from '@mui/material';
 import { ChatMessage } from '@tenex/shared';
 import { format } from 'date-fns';
+import ReactMarkdown from 'react-markdown';
 
 interface ChatMessageItemProps {
   message: ChatMessage;
@@ -16,9 +17,17 @@ const ChatMessageItem: React.FC<ChatMessageItemProps> = ({ message }) => {
     if (isStreaming && message.text) {
       return (
         <Box sx={{ position: 'relative' }}>
-          <Typography variant="body1" sx={{ mb: 0.5 }}>
+          <ReactMarkdown 
+            components={{
+              p: ({node, ...props}) => <Typography variant="body1" sx={{ mb: 1 }} {...props} />,
+              ul: ({node, ...props}) => <ul style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
+              ol: ({node, ...props}) => <ol style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
+              li: ({node, ...props}) => <li style={{ marginBottom: '0.25em' }} {...props} />,
+              strong: ({node, ...props}) => <strong style={{ fontWeight: 600 }} {...props} />,
+            }}
+          >
             {message.text}
-          </Typography>
+          </ReactMarkdown>
           <Box
             component="span"
             sx={{
@@ -38,9 +47,25 @@ const ChatMessageItem: React.FC<ChatMessageItemProps> = ({ message }) => {
       );
     }
     
+    if (message.text) {
+      return (
+        <ReactMarkdown 
+          components={{
+            p: ({node, ...props}) => <Typography variant="body1" sx={{ mb: 1 }} {...props} />,
+            ul: ({node, ...props}) => <ul style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
+            ol: ({node, ...props}) => <ol style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
+            li: ({node, ...props}) => <li style={{ marginBottom: '0.25em' }} {...props} />,
+            strong: ({node, ...props}) => <strong style={{ fontWeight: 600 }} {...props} />,
+          }}
+        >
+          {message.text}
+        </ReactMarkdown>
+      );
+    }
+    
     return (
       <Typography variant="body1" sx={{ mb: 0.5 }}>
-        {message.text || (hasError ? 'Message failed to send' : '')}
+        {hasError ? 'Message failed to send' : ''}
       </Typography>
     );
   }, [message.text, isStreaming, hasError]);
