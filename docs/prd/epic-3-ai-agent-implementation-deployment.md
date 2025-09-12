@@ -30,7 +30,21 @@
 3.  The agent's response appears in the chat history as it is being generated, creating a "typing" effect.
 4.  The final, complete response from the agent is clearly and correctly displayed in the chat history.
 
-## Story 3.3: Application Deployment
+## Story 3.3a: Local Development Setup & Documentation
+
+- **As a** developer comfortable with GitHub and command line,
+- **I want** to easily set up and run the application locally from the GitHub repository,
+- **so that** I can test, develop, and understand the codebase without needing production deployment.
+
+### Acceptance Criteria
+
+1.  A comprehensive README.md exists at the project root with clear setup instructions.
+2.  Local development setup works with standard commands (npm install, turbo dev, etc.).
+3.  All required environment variables are documented with examples.
+4.  Both frontend and backend start successfully locally on standard ports.
+5.  Complete end-to-end workflow (Login -> View Calendar -> Chat -> Get AI Response) works locally.
+
+## Story 3.3b: Production Deployment & Public URL
 
 - **As a** developer,
 - **I want** to deploy the entire full-stack application to a public URL,
@@ -45,3 +59,7 @@
 5.  The complete, end-to-end user workflow (Login -> View Calendar -> Chat -> Get AI Response) is fully functional on the public URL.
 
 ---
+
+### Epic Notes
+
+**Story 3.3 Split Rationale:** The original Story 3.3 was split into two focused stories (3.3a and 3.3b) to provide equal weight to both local development setup and production deployment. This separation ensures comprehensive documentation and accessibility for other developers while maintaining the original public deployment goal.
