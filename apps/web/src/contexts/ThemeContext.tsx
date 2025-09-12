@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { ThemeProvider, createTheme, Theme } from '@mui/material/styles';
 
-export type ThemeMode = 'basic' | 'dark' | 'pride';
+export type ThemeMode = 'basic' | 'dark' | 'pride' | 'forest';
 
 interface ThemeContextType {
   themeMode: ThemeMode;
@@ -32,12 +32,14 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
     localStorage.setItem('theme-mode', themeMode);
     
     // Update body class for themes
-    document.body.classList.remove('dark-mode', 'pride-mode');
+    document.body.classList.remove('dark-mode', 'pride-mode', 'forest-mode');
     
     if (themeMode === 'dark') {
       document.body.classList.add('dark-mode');
     } else if (themeMode === 'pride') {
       document.body.classList.add('pride-mode');
+    } else if (themeMode === 'forest') {
+      document.body.classList.add('forest-mode');
     }
   }, [themeMode]);
 
@@ -244,6 +246,210 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
           },
           h6: {
             color: '#008026',
+          },
+        },
+      });
+    } else if (mode === 'forest') {
+      return createTheme({
+        palette: {
+          mode: 'light',
+          primary: {
+            main: '#2E7D32', // Deep forest green
+            light: '#4CAF50',
+            dark: '#1B5E20',
+          },
+          secondary: {
+            main: '#6D4C41', // Earth brown
+            light: '#8D6E63',
+            dark: '#4E342E',
+          },
+          background: {
+            default: '#F1F8E9', // Light forest green background
+            paper: '#FFFFFF',
+          },
+          text: {
+            primary: '#2E7D32', // Deep forest green
+            secondary: '#5D4037', // Dark brown
+            disabled: '#A1887F',
+          },
+          divider: '#C8A882', // Sandy brown
+          action: {
+            active: '#2E7D32',
+            hover: '#E8F5E9',
+            selected: '#C8E6C9',
+            disabled: '#BCAAA4',
+            disabledBackground: '#F5F5F5',
+          },
+          error: {
+            main: '#D32F2F',
+            light: '#FF6659',
+            dark: '#9A0007',
+          },
+          warning: {
+            main: '#F57C00',
+            light: '#FFAB40',
+            dark: '#E65100',
+          },
+          success: {
+            main: '#2E7D32',
+            light: '#4CAF50',
+            dark: '#1B5E20',
+          },
+          info: {
+            main: '#1976D2',
+            light: '#42A5F5',
+            dark: '#0D47A1',
+          },
+        },
+        components: {
+          MuiPaper: {
+            styleOverrides: {
+              root: {
+                backgroundImage: 'linear-gradient(135deg, rgba(46, 125, 50, 0.05), rgba(109, 76, 65, 0.05))',
+                boxShadow: '0 3px 10px rgba(46, 125, 50, 0.15)',
+                border: '1px solid rgba(109, 76, 65, 0.1)',
+              },
+            },
+          },
+          MuiCard: {
+            styleOverrides: {
+              root: {
+                backgroundImage: 'linear-gradient(135deg, rgba(46, 125, 50, 0.05), rgba(109, 76, 65, 0.05))',
+                boxShadow: '0 3px 10px rgba(46, 125, 50, 0.15)',
+                border: '1px solid rgba(109, 76, 65, 0.1)',
+              },
+            },
+          },
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                textTransform: 'none',
+                fontWeight: 600,
+                borderRadius: '8px',
+                boxShadow: '0 2px 4px rgba(46, 125, 50, 0.2)',
+              },
+              containedPrimary: {
+                background: 'linear-gradient(135deg, #2E7D32, #4CAF50)',
+                boxShadow: '0 3px 8px rgba(46, 125, 50, 0.3)',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #388E3C, #66BB6A)',
+                  boxShadow: '0 4px 12px rgba(46, 125, 50, 0.4)',
+                },
+              },
+              outlinedPrimary: {
+                borderColor: '#2E7D32',
+                color: '#2E7D32',
+                borderWidth: '2px',
+                '&:hover': {
+                  borderColor: '#4CAF50',
+                  backgroundColor: 'rgba(46, 125, 50, 0.05)',
+                },
+              },
+            },
+          },
+          MuiAppBar: {
+            styleOverrides: {
+              root: {
+                background: 'linear-gradient(90deg, #2E7D32, #4CAF50, #81C784)',
+                boxShadow: '0 2px 8px rgba(46, 125, 50, 0.3)',
+              },
+            },
+          },
+          MuiToolbar: {
+            styleOverrides: {
+              root: {
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              },
+            },
+          },
+          MuiTab: {
+            styleOverrides: {
+              root: {
+                color: '#5D4037',
+                fontWeight: 500,
+              },
+              selected: {
+                color: '#2E7D32',
+                fontWeight: 600,
+              },
+            },
+          },
+          MuiTabs: {
+            styleOverrides: {
+              indicator: {
+                backgroundColor: '#2E7D32',
+                height: '3px',
+              },
+            },
+          },
+          MuiChip: {
+            styleOverrides: {
+              root: {
+                backgroundColor: '#E8F5E9',
+                color: '#2E7D32',
+                border: '1px solid #A5D6A7',
+              },
+              filled: {
+                backgroundColor: '#C8E6C9',
+              },
+              outlined: {
+                borderColor: '#A5D6A7',
+              },
+            },
+          },
+          MuiOutlinedInput: {
+            styleOverrides: {
+              root: {
+                '& fieldset': {
+                  borderColor: '#C8A882',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#8D6E63',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#2E7D32',
+                  borderWidth: '2px',
+                },
+              },
+            },
+          },
+        },
+        typography: {
+          h1: {
+            color: '#2E7D32',
+            fontWeight: 700,
+          },
+          h2: {
+            color: '#388E3C',
+            fontWeight: 600,
+          },
+          h3: {
+            color: '#4CAF50',
+            fontWeight: 600,
+          },
+          h4: {
+            color: '#6D4C41',
+            fontWeight: 600,
+          },
+          h5: {
+            color: '#8D6E63',
+            fontWeight: 600,
+          },
+          h6: {
+            color: '#A1887F',
+            fontWeight: 600,
+          },
+          subtitle1: {
+            color: '#5D4037',
+          },
+          subtitle2: {
+            color: '#8D6E63',
+          },
+          body1: {
+            color: '#3E2723',
+          },
+          body2: {
+            color: '#5D4037',
           },
         },
       });

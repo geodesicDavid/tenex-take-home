@@ -500,3 +500,302 @@
 .pride-mode::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(45deg, #FF8C00, #FFED00);
 }
+
+/* Forest Theme Styles */
+.forest-mode {
+  /* Smooth transitions for theme changes */
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.forest-mode .MuiPaper-root {
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.03), rgba(109, 76, 65, 0.03));
+  border: 1px solid rgba(109, 76, 65, 0.1);
+  box-shadow: 0 3px 10px rgba(46, 125, 50, 0.15);
+}
+
+.forest-mode .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1 {
+  color: #2E7D32 !important;
+}
+
+.forest-mode .MuiCard-root {
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.03), rgba(109, 76, 65, 0.03));
+  border: 1px solid rgba(109, 76, 65, 0.1);
+  box-shadow: 0 3px 10px rgba(46, 125, 50, 0.15);
+}
+
+.forest-mode .MuiButton-containedPrimary {
+  background: linear-gradient(135deg, #2E7D32, #4CAF50);
+  box-shadow: 0 3px 8px rgba(46, 125, 50, 0.3);
+  color: white;
+  font-weight: 600;
+}
+
+.forest-mode .MuiButton-containedPrimary:hover {
+  background: linear-gradient(135deg, #388E3C, #66BB6A);
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.4);
+  transform: translateY(-1px);
+}
+
+.forest-mode .MuiButton-outlinedPrimary {
+  border-color: #2E7D32;
+  color: #2E7D32;
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.02), rgba(76, 175, 80, 0.02));
+  border-width: 2px;
+}
+
+.forest-mode .MuiButton-outlinedPrimary:hover {
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.05), rgba(76, 175, 80, 0.05));
+  border-color: #4CAF50;
+  color: #4CAF50;
+}
+
+.forest-mode .MuiTypography-h1 {
+  color: #2E7D32;
+  font-weight: 700;
+}
+
+.forest-mode .MuiTypography-h2 {
+  color: #388E3C;
+  font-weight: 600;
+}
+
+.forest-mode .MuiTypography-h3 {
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+.forest-mode .MuiTypography-h4 {
+  color: #6D4C41;
+  font-weight: 600;
+}
+
+.forest-mode .MuiTypography-h5 {
+  color: #8D6E63;
+  font-weight: 600;
+}
+
+.forest-mode .MuiTypography-h6 {
+  color: #A1887F;
+  font-weight: 600;
+}
+
+.forest-mode .MuiAppBar-root {
+  background: linear-gradient(90deg, #2E7D32, #4CAF50, #81C784);
+  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.3);
+}
+
+.forest-mode .MuiToolbar-root {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.forest-mode .MuiTabs-indicator {
+  background-color: #2E7D32;
+  height: 3px;
+}
+
+.forest-mode .MuiTab-root {
+  color: #5D4037;
+  font-weight: 500;
+}
+
+.forest-mode .MuiTab-root.Mui-selected {
+  color: #2E7D32;
+  font-weight: 600;
+}
+
+.forest-mode .MuiTab-root:hover {
+  color: #388E3C;
+}
+
+.forest-mode .MuiChip-root {
+  background-color: #E8F5E9;
+  color: #2E7D32;
+  border: 1px solid #A5D6A7;
+}
+
+.forest-mode .MuiChip-root.MuiChip-filled {
+  background-color: #C8E6C9;
+}
+
+.forest-mode .MuiChip-root.MuiChip-outlined {
+  border-color: #A5D6A7;
+}
+
+.forest-mode .MuiBadge-badge {
+  background-color: #2E7D32;
+  color: white;
+  font-weight: 600;
+}
+
+.forest-mode .MuiAvatar-root {
+  background: linear-gradient(135deg, #2E7D32, #4CAF50);
+  color: white;
+  font-weight: 600;
+}
+
+.forest-mode .MuiCircularProgress-root {
+  color: #2E7D32;
+}
+
+.forest-mode .MuiLinearProgress-root {
+  background-color: #E8F5E9;
+}
+
+.forest-mode .MuiLinearProgress-bar {
+  background: linear-gradient(90deg, #2E7D32, #4CAF50, #81C784);
+}
+
+.forest-mode .MuiAlert-standardSuccess {
+  background-color: #E8F5E9;
+  border-left: 4px solid #2E7D32;
+  color: #2E7D32;
+}
+
+.forest-mode .MuiAlert-standardInfo {
+  background-color: #E3F2FD;
+  border-left: 4px solid #1976D2;
+  color: #1976D2;
+}
+
+.forest-mode .MuiAlert-standardWarning {
+  background-color: #FFF8E1;
+  border-left: 4px solid #F57C00;
+  color: #F57C00;
+}
+
+.forest-mode .MuiAlert-standardError {
+  background-color: #FFEBEE;
+  border-left: 4px solid #D32F2F;
+  color: #D32F2F;
+}
+
+.forest-mode .MuiOutlinedInput-root fieldset {
+  border-color: #C8A882;
+}
+
+.forest-mode .MuiOutlinedInput-root:hover fieldset {
+  border-color: #8D6E63;
+}
+
+.forest-mode .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: #2E7D32;
+  border-width: 2px;
+}
+
+.forest-mode .MuiDivider-root {
+  border-color: #C8A882;
+  opacity: 0.6;
+}
+
+.forest-mode .MuiLink-root {
+  color: #2E7D32;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.forest-mode .MuiLink-root:hover {
+  color: #4CAF50;
+  text-decoration: underline;
+}
+
+.forest-mode .MuiTableCell-root {
+  border-color: #C8A882;
+}
+
+.forest-mode .MuiTable-root {
+  border-color: #C8A882;
+}
+
+.forest-mode .MuiListItemIcon-root {
+  color: #2E7D32;
+}
+
+.forest-mode .MuiListItemText-primary {
+  color: #3E2723;
+  font-weight: 500;
+}
+
+.forest-mode .MuiListItemText-secondary {
+  color: #5D4037;
+}
+
+/* Forest theme scrollbar */
+.forest-mode::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.forest-mode::-webkit-scrollbar-track {
+  background: linear-gradient(135deg, #F1F8E9, #E8F5E9);
+}
+
+.forest-mode::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #2E7D32, #4CAF50);
+  border-radius: 4px;
+}
+
+.forest-mode::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #388E3C, #66BB6A);
+}
+
+/* Forest theme body background */
+.forest-mode {
+  background-color: #F1F8E9;
+}
+
+.forest-mode .MuiDialog-paper {
+  background-color: white;
+  border: 1px solid rgba(109, 76, 65, 0.2);
+}
+
+.forest-mode .MuiDialogTitle-root {
+  color: #2E7D32;
+}
+
+.forest-mode .MuiDialogContentText-root {
+  color: #5D4037;
+}
+
+.forest-mode .MuiFormControlLabel-root {
+  color: #3E2723;
+}
+
+.forest-mode .MuiRadio-root {
+  color: #2E7D32;
+}
+
+.forest-mode .MuiCheckbox-root {
+  color: #2E7D32;
+}
+
+.forest-mode .MuiSwitch-root .MuiSwitch-switchBase.Mui-checked {
+  color: #2E7D32;
+}
+
+.forest-mode .MuiSwitch-root .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
+  background-color: #2E7D32;
+}
+
+.forest-mode .MuiInputBase-input {
+  color: #3E2723;
+}
+
+.forest-mode .MuiInputBase-input::placeholder {
+  color: #A1887F;
+}
+
+.forest-mode .MuiInputLabel-root {
+  color: #5D4037;
+}
+
+.forest-mode .MuiInputLabel-root.Mui-focused {
+  color: #2E7D32;
+}
+
+.forest-mode .MuiNativeSelect-root {
+  color: #3E2723;
+}
+
+.forest-mode .MuiSelect-root {
+  color: #3E2723;
+}
