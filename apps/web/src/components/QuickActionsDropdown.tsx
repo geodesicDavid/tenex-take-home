@@ -5,8 +5,7 @@ import {
   Select, 
   MenuItem, 
   SelectChangeEvent,
-  Box,
-  Typography
+  Box
 } from '@mui/material';
 
 interface QuickActionsDropdownProps {

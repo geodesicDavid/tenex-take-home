@@ -4,6 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import AuthComponent from '../components/AuthComponent';
 import CalendarContainer from '../components/layout/CalendarContainer';
 import ChatContainer from '../components/layout/ChatContainer';
+import ThemeDropdown from '../components/ThemeDropdown';
 
 const MainAppPage: React.FC = () => {
   const { authState } = useAuth();
@@ -20,7 +21,8 @@ const MainAppPage: React.FC = () => {
         py: { xs: 2, sm: 3, md: 4 },
         height: '100%',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        position: 'relative'
       }}
     >
       <Box sx={{ mb: 4 }}>
@@ -65,6 +67,7 @@ const MainAppPage: React.FC = () => {
           <ChatContainer />
         </Grid>
       </Grid>
+        <ThemeDropdown />
     </Container>
   );
 };

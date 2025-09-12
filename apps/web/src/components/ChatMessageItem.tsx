@@ -19,7 +19,11 @@ const ChatMessageItem: React.FC<ChatMessageItemProps> = ({ message }) => {
         <Box sx={{ position: 'relative' }}>
           <ReactMarkdown 
             components={{
-              p: ({node, ...props}) => <Typography variant="body1" sx={{ mb: 1 }} {...props} />,
+              p: (props) => (
+                <div style={{ marginBottom: '1em', fontFamily: 'inherit', fontSize: '1rem', lineHeight: 1.5 }} {...props}>
+                  {props.children}
+                </div>
+              ),
               ul: ({node, ...props}) => <ul style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
               ol: ({node, ...props}) => <ol style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
               li: ({node, ...props}) => <li style={{ marginBottom: '0.25em' }} {...props} />,
@@ -51,7 +55,11 @@ const ChatMessageItem: React.FC<ChatMessageItemProps> = ({ message }) => {
       return (
         <ReactMarkdown 
           components={{
-            p: ({node, ...props}) => <Typography variant="body1" sx={{ mb: 1 }} {...props} />,
+            p: (props) => (
+              <div style={{ marginBottom: '1em', fontFamily: 'inherit', fontSize: '1rem', lineHeight: 1.5 }} {...props}>
+                {props.children}
+              </div>
+            ),
             ul: ({node, ...props}) => <ul style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
             ol: ({node, ...props}) => <ol style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
             li: ({node, ...props}) => <li style={{ marginBottom: '0.25em' }} {...props} />,

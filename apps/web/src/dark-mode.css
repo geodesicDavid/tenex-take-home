@@ -1,0 +1,199 @@
+/* Dark Mode Specific Styles */
+.dark-mode {
+  /* Smooth transitions for theme changes */
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-mode .MuiPaper-root {
+  background-color: #1a1a1a;
+  border: 1px solid #333333;
+}
+
+.dark-mode .MuiCard-root {
+  background-color: #1a1a1a;
+  border: 1px solid #333333;
+}
+
+.dark-mode .MuiButton-root {
+  border-color: #333333;
+}
+
+.dark-mode .MuiOutlinedInput-root fieldset {
+  border-color: #333333;
+}
+
+.dark-mode .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #555555;
+}
+
+.dark-mode .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #bb86fc;
+}
+
+.dark-mode .MuiDivider-root {
+  border-color: #333333;
+}
+
+.dark-mode .MuiTableCell-root {
+  border-color: #333333;
+}
+
+.dark-mode .MuiTable-root {
+  border-color: #333333;
+}
+
+.dark-mode .MuiListItemIcon-root {
+  color: #a0a0a0;
+}
+
+.dark-mode .MuiListItemText-primary {
+  color: #e1e1e1;
+}
+
+.dark-mode .MuiListItemText-secondary {
+  color: #a0a0a0;
+}
+
+/* Custom scrollbar for dark mode */
+.dark-mode::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark-mode::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.dark-mode::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 4px;
+}
+
+.dark-mode::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+/* Enhanced contrast for form elements */
+.dark-mode .MuiInputLabel-root {
+  color: #a0a0a0;
+}
+
+.dark-mode .MuiInputLabel-root.Mui-focused {
+  color: #bb86fc;
+}
+
+.dark-mode .MuiInputBase-input {
+  color: #e1e1e1;
+}
+
+.dark-mode .MuiInputBase-input::placeholder {
+  color: #666666;
+}
+
+/* Better contrast for buttons */
+.dark-mode .MuiButton-containedPrimary {
+  background-color: #990964;
+  color: white;
+}
+
+.dark-mode .MuiButton-containedPrimary:hover {
+  background-color: #d6118f;
+}
+
+.dark-mode .MuiButton-outlinedPrimary {
+  border-color: #990964;
+  color: #990964;
+}
+
+.dark-mode .MuiButton-outlinedPrimary:hover {
+  background-color: rgba(153, 9, 100, 0.1);
+  border-color: #d6118f;
+  color: #d6118f;
+}
+
+/* Better contrast for links */
+.dark-mode .MuiLink-root {
+  color: #bb86fc;
+}
+
+.dark-mode .MuiLink-root:hover {
+  color: #e2d4ff;
+}
+
+/* Better contrast for badges */
+.dark-mode .MuiBadge-badge {
+  background-color: #bb86fc;
+  color: #0a0a0a;
+}
+
+/* Better contrast for avatars */
+.dark-mode .MuiAvatar-root {
+  background-color: #2a2a2a;
+  color: #e1e1e1;
+}
+
+/* Better contrast for chips */
+.dark-mode .MuiChip-root {
+  background-color: #2a2a2a;
+  color: #e1e1e1;
+}
+
+.dark-mode .MuiChip-root.MuiChip-filled {
+  background-color: #333333;
+}
+
+.dark-mode .MuiChip-root.MuiChip-outlined {
+  border-color: #333333;
+}
+
+/* Better contrast for tabs */
+.dark-mode .MuiTabs-indicator {
+  background-color: #bb86fc;
+}
+
+.dark-mode .MuiTab-root {
+  color: #a0a0a0;
+}
+
+.dark-mode .MuiTab-root.Mui-selected {
+  color: #e1e1e1;
+}
+
+.dark-mode .MuiTab-root:hover {
+  color: #e1e1e1;
+}
+
+/* Better contrast for alerts */
+.dark-mode .MuiAlert-standardInfo {
+  background-color: #1a1a2e;
+  color: #64b5f6;
+}
+
+.dark-mode .MuiAlert-standardSuccess {
+  background-color: #1a2e1a;
+  color: #81c995;
+}
+
+.dark-mode .MuiAlert-standardWarning {
+  background-color: #2e2a1a;
+  color: #ffb74d;
+}
+
+.dark-mode .MuiAlert-standardError {
+  background-color: #2e1a1a;
+  color: #cf6679;
+}
+
+/* Better contrast for dialogs */
+.dark-mode .MuiDialog-paper {
+  background-color: #1a1a1a;
+  border: 1px solid #333333;
+}
+
+.dark-mode .MuiDialogTitle-root {
+  color: #e1e1e1;
+}
+
+.dark-mode .MuiDialogContentText-root {
+  color: #a0a0a0;
+}

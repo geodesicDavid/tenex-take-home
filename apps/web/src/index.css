@@ -5,6 +5,20 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #ffffff;
+  color: #212121;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+  background-color: #0a0a0a;
+  color: #e1e1e1;
+}
+
+#root {
+  min-height: 100vh;
+  background: inherit;
+  color: inherit;
 }
 
 code {

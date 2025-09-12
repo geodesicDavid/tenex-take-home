@@ -161,7 +161,7 @@ graph TD
 | Color Type | Hex Code                                                    | Usage                                                       |
 | :--------- | :---------------------------------------------------------- | :---------------------------------------------------------- |
 | Primary    | `#1976D2`                                                   | Primary buttons, links, and highlights. (A standard blue)     |
-| Secondary  | `#9C27B0`                                                   | Optional secondary actions or highlights. (A standard purple) |
+| Secondary  | `#990964`                                                   | Optional secondary actions or highlights. (A standard purple) |
 | Accent     | `#FFC107`                                                   | For special highlights or callouts. (A standard amber)      |
 | Success    | `#4CAF50`                                                   | Positive feedback, confirmations. (A standard green)        |
 | Warning    | `#FF9800`                                                   | Cautions, important notices. (A standard orange)            |
