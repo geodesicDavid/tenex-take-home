@@ -1,22 +1,59 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { Box, TextField, Button, Typography, Paper } from '@mui/material';
-import { Send as SendIcon } from '@mui/icons-material';
+import { Box, TextField, Button, Typography, Paper, IconButton } from '@mui/material';
+import { Send as SendIcon, Mic as MicIcon, MicOff as MicOffIcon } from '@mui/icons-material';
 import { useChatMessages } from '../hooks/useChatMessages';
 import ChatMessageList from './ChatMessageList';
 import { sendMessageStreaming } from '../services/chatService';
 import { ChatMessage, StreamingChunk } from '@tenex/shared';
+import { useSpeechRecognition } from 'react-speech-recognition';
+import SpeechRecognition from 'react-speech-recognition';
 
 const ChatComponent: React.FC = () => {
   const [inputMessage, setInputMessage] = useState('');
   const { messages, isLoading, error, sendUserMessage, addMessage, updateMessage } = useChatMessages();
   const hasSentInitialMessage = useRef(false);
 
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
+
+  const handleVoiceInput = useCallback(() => {
+    if (listening) {
+      SpeechRecognition.stopListening();
+      resetTranscript();
+    } else {
+      resetTranscript();
+      SpeechRecognition.startListening({ continuous: true });
+    }
+  }, [listening, resetTranscript]);
+
+  useEffect(() => {
+    if (transcript) {
+      setInputMessage(transcript);
+    }
+  }, [transcript]);
+
+  useEffect(() => {
+    return () => {
+      if (listening) {
+        SpeechRecognition.stopListening();
+      }
+    };
+  }, [listening]);
+
   const handleSendMessage = useCallback(async () => {
     if (inputMessage.trim() && !isLoading) {
       await sendUserMessage(inputMessage.trim());
       setInputMessage('');
+      resetTranscript();
+      if (listening) {
+        SpeechRecognition.stopListening();
+      }
     }
-  }, [inputMessage, isLoading, sendUserMessage]);
+  }, [inputMessage, isLoading, sendUserMessage, resetTranscript, listening]);
 
   const handleKeyPress = useCallback((event: React.KeyboardEvent) => {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -143,6 +180,21 @@ const ChatComponent: React.FC = () => {
         }}
       >
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-start' }}>
+          {browserSupportsSpeechRecognition ? (
+            <IconButton
+              onClick={handleVoiceInput}
+              color={listening ? 'error' : 'primary'}
+              disabled={isLoading}
+              sx={{
+                minWidth: 'auto',
+                borderRadius: 2,
+                height: '56px',
+                width: '56px',
+              }}
+            >
+              {listening ? <MicOffIcon /> : <MicIcon />}
+            </IconButton>
+          ) : null}
           <TextField
             fullWidth
             multiline
