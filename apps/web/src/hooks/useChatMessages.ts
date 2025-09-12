@@ -109,6 +109,8 @@ export const useChatMessages = () => {
     isLoading,
     error,
     sendUserMessage,
+    addMessage,
+    updateMessage,
     clearMessages,
   };
 };

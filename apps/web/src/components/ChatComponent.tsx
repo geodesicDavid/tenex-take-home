@@ -1,12 +1,15 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Box, TextField, Button, Typography, Paper } from '@mui/material';
 import { Send as SendIcon } from '@mui/icons-material';
 import { useChatMessages } from '../hooks/useChatMessages';
 import ChatMessageList from './ChatMessageList';
+import { sendMessageStreaming } from '../services/chatService';
+import { ChatMessage, StreamingChunk } from '@tenex/shared';
 
 const ChatComponent: React.FC = () => {
   const [inputMessage, setInputMessage] = useState('');
-  const { messages, isLoading, error, sendUserMessage } = useChatMessages();
+  const { messages, isLoading, error, sendUserMessage, addMessage, updateMessage } = useChatMessages();
+  const hasSentInitialMessage = useRef(false);
 
   const handleSendMessage = useCallback(async () => {
     if (inputMessage.trim() && !isLoading) {
@@ -21,6 +24,63 @@ const ChatComponent: React.FC = () => {
       handleSendMessage();
     }
   }, [handleSendMessage]);
+
+  useEffect(() => {
+    const sendInitialMessage = async () => {
+      if (!hasSentInitialMessage.current && !isLoading && messages.length === 0) {
+        hasSentInitialMessage.current = true;
+        
+        // Create only the agent message to show the response
+        const agentMessage: Omit<ChatMessage, 'id'> = {
+          text: '',
+          sender: 'agent',
+          timestamp: new Date(),
+          isStreaming: true,
+          isComplete: false,
+        };
+
+        const agentMessageId = addMessage(agentMessage);
+
+        try {
+          await sendMessageStreaming(
+            'hello',
+            (chunk: StreamingChunk) => {
+              if (chunk.isComplete) {
+                updateMessage(agentMessageId, {
+                  isStreaming: false,
+                  isComplete: true,
+                });
+                return;
+              }
+
+              if (chunk.content) {
+                updateMessage(agentMessageId, (prev) => ({
+                  text: prev.text + chunk.content,
+                }));
+              }
+            },
+            (err: Error) => {
+              console.error('Initial message streaming error:', err);
+              updateMessage(agentMessageId, {
+                isStreaming: false,
+                isComplete: false,
+                error: err.message,
+              });
+            }
+          );
+        } catch (err) {
+          console.error('Error sending initial message:', err);
+          updateMessage(agentMessageId, {
+            isStreaming: false,
+            isComplete: false,
+            error: 'Failed to send initial message.',
+          });
+        }
+      }
+    };
+
+    sendInitialMessage();
+  }, [isLoading, messages.length, addMessage, updateMessage]);
 
   return (
     <Box sx={{ 
