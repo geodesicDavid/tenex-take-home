@@ -89,7 +89,6 @@ async def test_chat_message_streaming_real(
     try:
         from app.models.user import User
         from fastapi.responses import StreamingResponse
-        import json
         
         # Create a mock user for testing
         mock_user = User(

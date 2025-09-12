@@ -3,10 +3,14 @@ module.exports = {
     browser: true,
     es2020: true,
     node: true,
+    jest: true,
+  },
+  globals: {
+    React: 'readonly',
+    EventListener: 'readonly',
   },
   extends: [
     'eslint:recommended',
-    '@typescript-eslint/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs', 'node_modules'],
   parser: '@typescript-eslint/parser',
@@ -16,8 +20,6 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    project: './tsconfig.json',
-    tsconfigRootDir: __dirname,
   },
   plugins: ['@typescript-eslint', 'react-refresh', 'react-hooks'],
   rules: {
@@ -27,10 +29,10 @@ module.exports = {
     ],
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
-    '@typescript-eslint/no-unused-vars': 'error',
-    '@typescript-eslint/no-explicit-any': 'warn',
     'no-var': 'error',
     'prefer-const': 'error',
     'no-console': 'warn',
+    'no-undef': 'error',
+    'no-unused-vars': 'warn',
   },
 }

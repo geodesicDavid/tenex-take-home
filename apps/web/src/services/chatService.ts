@@ -45,7 +45,7 @@ export const sendMessageStreaming = async (
     const decoder = new TextDecoder();
     
     try {
-      while (true) {
+      while (!reader.closed) {
         const { done, value } = await reader.read();
         
         if (done) {

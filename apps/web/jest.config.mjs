@@ -9,6 +9,9 @@ export default {
     '<rootDir>/src/**/__tests__/**/*.{ts,tsx}',
     '<rootDir>/src/**/*.{test,spec}.{ts,tsx}',
   ],
+  transformIgnorePatterns: [
+    '/node_modules/(?!(react-markdown|@emotion|react-speech-recognition)/)'
+  ],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { ChatComponent } from '../ChatComponent';
+import { ChatComponent } from '../components/ChatComponent';
 import { useChatMessages } from '@/hooks/useChatMessages';
 
 // Mock the useChatMessages hook
