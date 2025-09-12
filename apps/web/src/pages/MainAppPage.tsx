@@ -17,7 +17,10 @@ const MainAppPage: React.FC = () => {
       maxWidth="xl" 
       sx={{ 
         px: { xs: 2, sm: 3, md: 4 },
-        py: { xs: 2, sm: 3, md: 4 }
+        py: { xs: 2, sm: 3, md: 4 },
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column'
       }}
     >
       <Box sx={{ mb: 4 }}>
@@ -50,14 +53,16 @@ const MainAppPage: React.FC = () => {
         container 
         spacing={{ xs: 2, sm: 3, md: 4 }}
         sx={{ 
+          flex: 1,
           minHeight: { xs: 'auto', md: '600px' },
+          maxHeight: '600px',
           alignItems: 'stretch'
         }}
       >
-        <Grid item xs={12} lg={8} xl={7}>
+        <Grid item xs={12} lg={8} xl={7} sx={{ display: 'flex', flexDirection: 'column' }}>
           <CalendarContainer />
         </Grid>
-        <Grid item xs={12} lg={4} xl={5}>
+        <Grid item xs={12} lg={4} xl={5} sx={{ display: 'flex', flexDirection: 'column' }}>
           <ChatContainer />
         </Grid>
       </Grid>

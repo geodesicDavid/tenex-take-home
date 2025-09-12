@@ -51,10 +51,56 @@ const CalendarEventList: React.FC<CalendarEventListProps> = ({
     );
   }
 
+  // Group events by date
+  const groupedEvents: { [date: string]: CalendarEvent[] } = {};
+  events.forEach(event => {
+    const dateKey = new Date(event.start_time).toDateString();
+    if (!groupedEvents[dateKey]) {
+      groupedEvents[dateKey] = [];
+    }
+    groupedEvents[dateKey].push(event);
+  });
+
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-      {events.map((event) => (
-        <CalendarEventItem key={event.id} event={event} />
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      {Object.entries(groupedEvents).map(([date, dateEvents], index) => (
+        <React.Fragment key={date}>
+          <Box>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                fontWeight: 600, 
+                color: 'primary.main',
+                mb: 1,
+                position: 'sticky',
+                top: 0,
+                backgroundColor: 'background.paper',
+                zIndex: 1,
+                pb: 1
+              }}
+            >
+              {new Date(date).toLocaleDateString([], { 
+                weekday: 'long', 
+                month: 'long', 
+                day: 'numeric' 
+              })}
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              {dateEvents.map((event) => (
+                <CalendarEventItem key={event.id} event={event} />
+              ))}
+            </Box>
+          </Box>
+          
+          {/* Heavy line separator between days (except after the last day) */}
+          {index < Object.keys(groupedEvents).length - 1 && (
+            <Box sx={{ 
+              height: '3px', 
+              backgroundColor: 'divider', 
+              my: 1 
+            }} />
+          )}
+        </React.Fragment>
       ))}
     </Box>
   );

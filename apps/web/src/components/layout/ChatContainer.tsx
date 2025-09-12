@@ -13,8 +13,10 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ children }) => {
       sx={{ 
         height: '100%',
         minHeight: '400px',
+        maxHeight: '600px',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        overflow: 'hidden'
       }}
     >
       <Box sx={{ p: 3, pb: 0 }}>
@@ -32,7 +34,12 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ children }) => {
         </Typography>
       </Box>
       
-      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ 
+        flex: 1, 
+        display: 'flex', 
+        flexDirection: 'column',
+        overflow: 'hidden'
+      }}>
         {children || <ChatComponent />}
       </Box>
     </Paper>
