@@ -7,7 +7,7 @@ import {
   Typography, 
   useTheme 
 } from '@mui/material';
-import { useThemeContext } from '../contexts/ThemeContext';
+import { useThemeContext, ThemeMode } from '../contexts/ThemeContext';
 
 const ThemeDropdown: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -22,13 +22,17 @@ const ThemeDropdown: React.FC = () => {
     setAnchorEl(null);
   };
 
-  const handleThemeChange = (newTheme: 'basic' | 'dark') => {
+  const handleThemeChange = (newTheme: ThemeMode) => {
     setThemeMode(newTheme);
     handleClose();
   };
 
-  const getThemeIcon = (mode: 'basic' | 'dark') => {
-    return mode === 'dark' ? '🌙' : '☀️';
+  const getThemeIcon = (mode: ThemeMode) => {
+    switch (mode) {
+      case 'dark': return '🌙';
+      case 'pride': return '🌈';
+      default: return '☀️';
+    }
   };
 
   const open = Boolean(anchorEl);
@@ -100,6 +104,22 @@ const ThemeDropdown: React.FC = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Typography>🌙</Typography>
             <Typography>Dark</Typography>
+          </Box>
+        </MenuItem>
+        
+        <MenuItem 
+          onClick={() => handleThemeChange('pride')}
+          selected={themeMode === 'pride'}
+          sx={{
+            backgroundColor: themeMode === 'pride' ? theme.palette.action.selected : 'transparent',
+            '&:hover': {
+              backgroundColor: theme.palette.action.hover,
+            },
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Typography>🌈</Typography>
+            <Typography>Pride</Typography>
           </Box>
         </MenuItem>
       </Menu>

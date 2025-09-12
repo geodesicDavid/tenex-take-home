@@ -27,7 +27,6 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ children }) => {
             component="h2" 
             sx={{ 
               fontWeight: 600,
-              color: 'secondary.main',
             }}
           >
             Chat Interface

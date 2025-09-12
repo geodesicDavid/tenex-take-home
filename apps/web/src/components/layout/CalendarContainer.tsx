@@ -40,7 +40,6 @@ const CalendarContainer: React.FC<CalendarContainerProps> = ({ children }) => {
           gutterBottom
           sx={{ 
             fontWeight: 600,
-            color: 'primary.main',
             mb: 0
           }}
         >

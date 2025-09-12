@@ -1,4 +1,4 @@
-/* Dark Mode Specific Styles */
+/* Dark Mode & Pride Theme Specific Styles */
 .dark-mode {
   /* Smooth transitions for theme changes */
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
@@ -196,4 +196,307 @@
 
 .dark-mode .MuiDialogContentText-root {
   color: #a0a0a0;
+}
+
+/* Pride Theme Animations */
+@keyframes prideGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes prideSlide {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes pridePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+/* Pride Theme Specific Styles */
+.pride-mode {
+  /* Smooth transitions for theme changes */
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.pride-mode .MuiPaper-root {
+  background: linear-gradient(45deg, 
+    rgba(228, 3, 3, 0.1), 
+    rgba(255, 140, 0, 0.1), 
+    rgba(255, 237, 0, 0.1), 
+    rgba(0, 128, 38, 0.1), 
+    rgba(0, 77, 255, 0.1), 
+    rgba(117, 7, 135, 0.1));
+  border: 1px solid #FFE5E5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pride-mode .MuiCard-root {
+  background: linear-gradient(45deg, 
+    rgba(228, 3, 3, 0.1), 
+    rgba(255, 140, 0, 0.1), 
+    rgba(255, 237, 0, 0.1), 
+    rgba(0, 128, 38, 0.1), 
+    rgba(0, 77, 255, 0.1), 
+    rgba(117, 7, 135, 0.1));
+  border: 1px solid #FFE5E5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pride-mode .MuiButton-containedPrimary {
+  background: linear-gradient(45deg, #E40303, #FF8C00, #FFED00, #008026, #004DFF, #750787);
+  background-size: 300% 300%;
+  animation: prideGradient 3s ease infinite;
+  color: white;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 2px 8px rgba(228, 3, 3, 0.3);
+}
+
+.pride-mode .MuiButton-containedPrimary:hover {
+  box-shadow: 0 4px 16px rgba(228, 3, 3, 0.4);
+  transform: translateY(-1px);
+}
+
+.pride-mode .MuiButton-outlinedPrimary {
+  border-color: #E40303;
+  color: #E40303;
+  background: linear-gradient(45deg, 
+    rgba(228, 3, 3, 0.05), 
+    rgba(255, 140, 0, 0.05), 
+    rgba(255, 237, 0, 0.05), 
+    rgba(0, 128, 38, 0.05), 
+    rgba(0, 77, 255, 0.05), 
+    rgba(117, 7, 135, 0.05));
+}
+
+.pride-mode .MuiButton-outlinedPrimary:hover {
+  background: linear-gradient(45deg, 
+    rgba(228, 3, 3, 0.1), 
+    rgba(255, 140, 0, 0.1), 
+    rgba(255, 237, 0, 0.1), 
+    rgba(0, 128, 38, 0.1), 
+    rgba(0, 77, 255, 0.1), 
+    rgba(117, 7, 135, 0.1));
+  border-color: #FF8C00;
+  color: #FF8C00;
+}
+
+.pride-mode .MuiTypography-h1 {
+  background: linear-gradient(45deg, #E40303, #FF8C00, #FFED00, #008026, #004DFF, #750787);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: prideGradient 3s ease infinite;
+}
+
+.pride-mode .MuiTypography-h2 {
+  color: #750787;
+  font-weight: 600;
+}
+
+.pride-mode .MuiTypography-h3 {
+  color: #B91C1C;
+  font-weight: 600;
+}
+
+.pride-mode .MuiTypography-h4 {
+  color: #FF8C00;
+  font-weight: 600;
+}
+
+.pride-mode .MuiTypography-h5 {
+  color: #750787;
+  font-weight: 600;
+}
+
+.pride-mode .MuiTypography-h6 {
+  color: #1E40AF;
+  font-weight: 600;
+}
+
+.pride-mode .MuiAppBar-root {
+  background: linear-gradient(90deg, #E40303, #FF8C00, #FFED00, #008026, #004DFF, #750787);
+  background-size: 200% 100%;
+  animation: prideSlide 10s linear infinite;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pride-mode .MuiToolbar-root {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.pride-mode .MuiTabs-indicator {
+  background: linear-gradient(90deg, #E40303, #FF8C00, #FFED00, #008026, #004DFF, #750787);
+  height: 3px;
+}
+
+.pride-mode .MuiTab-root {
+  color: #666666;
+  font-weight: 500;
+}
+
+.pride-mode .MuiTab-root.Mui-selected {
+  color: #E40303;
+  font-weight: 600;
+}
+
+.pride-mode .MuiTab-root:hover {
+  color: #FF8C00;
+}
+
+.pride-mode .MuiChip-root {
+  background: linear-gradient(45deg, 
+    rgba(228, 3, 3, 0.1), 
+    rgba(255, 140, 0, 0.1), 
+    rgba(255, 237, 0, 0.1));
+  border: 1px solid rgba(228, 3, 3, 0.3);
+}
+
+.pride-mode .MuiChip-filled {
+  background: linear-gradient(45deg, 
+    rgba(228, 3, 3, 0.15), 
+    rgba(255, 140, 0, 0.15), 
+    rgba(255, 237, 0, 0.15));
+}
+
+.pride-mode .MuiBadge-badge {
+  background: linear-gradient(45deg, #E40303, #FF8C00);
+  color: white;
+  font-weight: 600;
+}
+
+.pride-mode .MuiAvatar-root {
+  background: linear-gradient(45deg, #E40303, #FF8C00, #FFED00, #008026);
+  color: white;
+  font-weight: 600;
+}
+
+.pride-mode .MuiCircularProgress-root {
+  color: #E40303;
+}
+
+.pride-mode .MuiLinearProgress-root {
+  background: linear-gradient(90deg, #E40303, #FF8C00, #FFED00, #008026, #004DFF, #750787);
+}
+
+.pride-mode .MuiAlert-standardSuccess {
+  background: linear-gradient(45deg, 
+    rgba(0, 128, 38, 0.1), 
+    rgba(0, 128, 38, 0.05));
+  border-left: 4px solid #008026;
+  color: #008026;
+}
+
+.pride-mode .MuiAlert-standardInfo {
+  background: linear-gradient(45deg, 
+    rgba(0, 77, 255, 0.1), 
+    rgba(0, 77, 255, 0.05));
+  border-left: 4px solid #004DFF;
+  color: #004DFF;
+}
+
+.pride-mode .MuiAlert-standardWarning {
+  background: linear-gradient(45deg, 
+    rgba(255, 237, 0, 0.1), 
+    rgba(255, 237, 0, 0.05));
+  border-left: 4px solid #FFED00;
+  color: #666600;
+}
+
+.pride-mode .MuiAlert-standardError {
+  background: linear-gradient(45deg, 
+    rgba(228, 3, 3, 0.1), 
+    rgba(228, 3, 3, 0.05));
+  border-left: 4px solid #E40303;
+  color: #E40303;
+}
+
+.pride-mode .MuiOutlinedInput-root fieldset {
+  border-color: #FFE5E5;
+}
+
+.pride-mode .MuiOutlinedInput-root:hover fieldset {
+  border-color: #FF8C00;
+}
+
+.pride-mode .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: #E40303;
+  border-width: 2px;
+}
+
+.pride-mode .MuiDivider-root {
+  border-color: #FFE5E5;
+  opacity: 0.8;
+}
+
+.pride-mode .MuiLink-root {
+  color: #E40303;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.pride-mode .MuiLink-root:hover {
+  color: #FF8C00;
+  text-decoration: underline;
+}
+
+.pride-mode .MuiTableCell-root {
+  border-color: #FFE5E5;
+}
+
+.pride-mode .MuiTable-root {
+  border-color: #FFE5E5;
+}
+
+.pride-mode .MuiListItemIcon-root {
+  color: #E40303;
+}
+
+.pride-mode .MuiListItemText-primary {
+  color: #333333;
+  font-weight: 500;
+}
+
+.pride-mode .MuiListItemText-secondary {
+  color: #666666;
+}
+
+/* Pride theme scrollbar */
+.pride-mode::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.pride-mode::-webkit-scrollbar-track {
+  background: linear-gradient(45deg, #FFE5E5, #FFF3E0);
+}
+
+.pride-mode::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #E40303, #FF8C00);
+  border-radius: 4px;
+}
+
+.pride-mode::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #FF8C00, #FFED00);
 }
