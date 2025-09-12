@@ -1,12 +1,11 @@
 from datetime import datetime
-from typing import Optional, List, AsyncGenerator
-from app.models.chat import ChatRequest, ChatResponse, ChatMessage
+from typing import List, AsyncGenerator
+from app.models.chat import ChatRequest, ChatResponse
 from app.models.calendar import CalendarEvent
 from app.models.user import User
 from app.services.llm_service import LLMService
 from app.services.calendar_service import calendar_service
 from app.prompts.calendar_assistant import PromptBuilder
-from app.utils.streaming import streaming_utils
 import logging
 
 logger = logging.getLogger(__name__)
