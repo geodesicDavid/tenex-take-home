@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { ThemeProvider, createTheme, Theme } from '@mui/material/styles';
 
-export type ThemeMode = 'basic' | 'dark' | 'pride' | 'forest';
+export type ThemeMode = 'basic' | 'dark' | 'pride' | 'forest' | 'metallic';
 
 interface ThemeContextType {
   themeMode: ThemeMode;
@@ -32,7 +32,7 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
     localStorage.setItem('theme-mode', themeMode);
     
     // Update body class for themes
-    document.body.classList.remove('dark-mode', 'pride-mode', 'forest-mode');
+    document.body.classList.remove('dark-mode', 'pride-mode', 'forest-mode', 'metallic-mode');
     
     if (themeMode === 'dark') {
       document.body.classList.add('dark-mode');
@@ -40,6 +40,8 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
       document.body.classList.add('pride-mode');
     } else if (themeMode === 'forest') {
       document.body.classList.add('forest-mode');
+    } else if (themeMode === 'metallic') {
+      document.body.classList.add('metallic-mode');
     }
   }, [themeMode]);
 
@@ -450,6 +452,212 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
           },
           body2: {
             color: '#5D4037',
+          },
+        },
+      });
+    } else if (mode === 'metallic') {
+      return createTheme({
+        palette: {
+          mode: 'light',
+          primary: {
+            main: '#FFD700', // Gold
+            light: '#FFED4B',
+            dark: '#B8860B',
+          },
+          secondary: {
+            main: '#C0C0C0', // Silver
+            light: '#E5E5E5',
+            dark: '#808080',
+          },
+          background: {
+            default: '#F5F5F5',
+            paper: '#FFFFFF',
+          },
+          text: {
+            primary: '#000000', // Black text for contrast
+            secondary: '#333333',
+            disabled: '#666666',
+          },
+          divider: '#CD7F32', // Bronze
+          action: {
+            active: '#FFD700',
+            hover: '#FFF8DC',
+            selected: '#F0E68C',
+            disabled: '#CCCCCC',
+            disabledBackground: '#F5F5F5',
+          },
+          error: {
+            main: '#DC143C',
+            light: '#FF6B6B',
+            dark: '#8B0000',
+          },
+          warning: {
+            main: '#FFA500',
+            light: '#FFD700',
+            dark: '#CD7F32',
+          },
+          success: {
+            main: '#228B22',
+            light: '#32CD32',
+            dark: '#006400',
+          },
+          info: {
+            main: '#4169E1',
+            light: '#6495ED',
+            dark: '#191970',
+          },
+        },
+        components: {
+          MuiPaper: {
+            styleOverrides: {
+              root: {
+                backgroundImage: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(192, 192, 192, 0.1), rgba(205, 127, 50, 0.1))',
+                boxShadow: '0 4px 12px rgba(255, 215, 0, 0.2)',
+                border: '1px solid rgba(205, 127, 50, 0.2)',
+              },
+            },
+          },
+          MuiCard: {
+            styleOverrides: {
+              root: {
+                backgroundImage: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(192, 192, 192, 0.1), rgba(205, 127, 50, 0.1))',
+                boxShadow: '0 4px 12px rgba(255, 215, 0, 0.2)',
+                border: '1px solid rgba(205, 127, 50, 0.2)',
+              },
+            },
+          },
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                textTransform: 'none',
+                fontWeight: 600,
+                borderRadius: '8px',
+                boxShadow: '0 2px 6px rgba(255, 215, 0, 0.3)',
+              },
+              containedPrimary: {
+                background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                boxShadow: '0 3px 10px rgba(255, 215, 0, 0.4)',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #FFA500, #FFD700)',
+                  boxShadow: '0 4px 15px rgba(255, 215, 0, 0.5)',
+                },
+              },
+              outlinedPrimary: {
+                borderColor: '#FFD700',
+                color: '#000000',
+                borderWidth: '2px',
+                '&:hover': {
+                  borderColor: '#FFA500',
+                  backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                },
+              },
+            },
+          },
+          MuiAppBar: {
+            styleOverrides: {
+              root: {
+                background: 'linear-gradient(90deg, #FFD700, #C0C0C0, #CD7F32)',
+                boxShadow: '0 3px 10px rgba(255, 215, 0, 0.3)',
+              },
+            },
+          },
+          MuiToolbar: {
+            styleOverrides: {
+              root: {
+                backgroundColor: 'rgba(255, 255, 255, 0.15)',
+              },
+            },
+          },
+          MuiTab: {
+            styleOverrides: {
+              root: {
+                color: '#333333',
+                fontWeight: 500,
+              },
+              selected: {
+                color: '#FFD700',
+                fontWeight: 600,
+              },
+            },
+          },
+          MuiTabs: {
+            styleOverrides: {
+              indicator: {
+                backgroundColor: '#FFD700',
+                height: '3px',
+              },
+            },
+          },
+          MuiChip: {
+            styleOverrides: {
+              root: {
+                backgroundColor: '#FFF8DC',
+                color: '#000000',
+                border: '1px solid #FFD700',
+              },
+              filled: {
+                backgroundColor: '#FFD700',
+                color: '#000000',
+              },
+              outlined: {
+                borderColor: '#CD7F32',
+              },
+            },
+          },
+          MuiOutlinedInput: {
+            styleOverrides: {
+              root: {
+                '& fieldset': {
+                  borderColor: '#CD7F32',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#C0C0C0',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#FFD700',
+                  borderWidth: '2px',
+                },
+              },
+            },
+          },
+        },
+        typography: {
+          h1: {
+            color: '#000000',
+            fontWeight: 700,
+            textShadow: '0 2px 4px rgba(255, 215, 0, 0.3)',
+          },
+          h2: {
+            color: '#000000',
+            fontWeight: 600,
+          },
+          h3: {
+            color: '#000000',
+            fontWeight: 600,
+          },
+          h4: {
+            color: '#000000',
+            fontWeight: 600,
+          },
+          h5: {
+            color: '#000000',
+            fontWeight: 600,
+          },
+          h6: {
+            color: '#000000',
+            fontWeight: 600,
+          },
+          subtitle1: {
+            color: '#333333',
+          },
+          subtitle2: {
+            color: '#333333',
+          },
+          body1: {
+            color: '#000000',
+          },
+          body2: {
+            color: '#333333',
           },
         },
       });

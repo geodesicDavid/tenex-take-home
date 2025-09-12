@@ -32,6 +32,7 @@ const ThemeDropdown: React.FC = () => {
       case 'dark': return '🌙';
       case 'pride': return '🌈';
       case 'forest': return '🌲';
+      case 'metallic': return '🏆';
       default: return '☀️';
     }
   };
@@ -137,6 +138,22 @@ const ThemeDropdown: React.FC = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Typography>🌲</Typography>
             <Typography>Forest</Typography>
+          </Box>
+        </MenuItem>
+        
+        <MenuItem 
+          onClick={() => handleThemeChange('metallic')}
+          selected={themeMode === 'metallic'}
+          sx={{
+            backgroundColor: themeMode === 'metallic' ? theme.palette.action.selected : 'transparent',
+            '&:hover': {
+              backgroundColor: theme.palette.action.hover,
+            },
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Typography>🏆</Typography>
+            <Typography>Metallic</Typography>
           </Box>
         </MenuItem>
       </Menu>
