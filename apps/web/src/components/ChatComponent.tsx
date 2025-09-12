@@ -23,7 +23,7 @@ const ChatComponent: React.FC = () => {
   }, [handleSendMessage]);
 
   return (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       {/* Message List */}
       <ChatMessageList messages={messages} isLoading={isLoading} />
 

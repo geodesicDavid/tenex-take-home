@@ -16,9 +16,11 @@ const CalendarContainer: React.FC<CalendarContainerProps> = ({ children }) => {
       sx={{ 
         p: 3, 
         height: '100%',
-        minHeight: '400px',
+        minHeight: { xs: '400px', md: '500px' },
+        maxHeight: { xs: '600px', md: '800px' },
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        overflow: 'hidden'
       }}
     >
       <Typography 

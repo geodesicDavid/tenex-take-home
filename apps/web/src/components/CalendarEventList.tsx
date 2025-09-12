@@ -52,7 +52,26 @@ const CalendarEventList: React.FC<CalendarEventListProps> = ({
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+    <Box sx={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      gap: 1,
+      overflowY: 'auto',
+      maxHeight: '100%',
+      '&::-webkit-scrollbar': {
+        width: '6px',
+      },
+      '&::-webkit-scrollbar-track': {
+        background: 'transparent',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        background: 'rgba(0, 0, 0, 0.2)',
+        borderRadius: '3px',
+      },
+      '&::-webkit-scrollbar-thumb:hover': {
+        background: 'rgba(0, 0, 0, 0.3)',
+      },
+    }}>
       {events.map((event) => (
         <CalendarEventItem key={event.id} event={event} />
       ))}

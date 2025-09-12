@@ -11,9 +11,21 @@ interface ChatMessageListProps {
 
 const ChatMessageList: React.FC<ChatMessageListProps> = ({ messages, isLoading = false }) => {
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const scrollToBottom = () => {
+      if (messagesEndRef.current && containerRef.current) {
+        const container = containerRef.current;
+        const isScrolledToBottom = container.scrollHeight - container.scrollTop <= container.clientHeight + 100;
+        
+        if (isScrolledToBottom || messages.length === 0) {
+          messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    };
+
+    scrollToBottom();
   }, [messages]);
 
   const showLoadingIndicator = isLoading && messages.length > 0 && !messages[messages.length - 1]?.isStreaming;
@@ -38,6 +50,7 @@ const ChatMessageList: React.FC<ChatMessageListProps> = ({ messages, isLoading =
 
   return (
     <Box
+      ref={containerRef}
       sx={{
         flex: 1,
         overflowY: 'auto',
@@ -45,6 +58,19 @@ const ChatMessageList: React.FC<ChatMessageListProps> = ({ messages, isLoading =
         py: 2,
         display: 'flex',
         flexDirection: 'column',
+        '&::-webkit-scrollbar': {
+          width: '6px',
+        },
+        '&::-webkit-scrollbar-track': {
+          background: 'transparent',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: 'rgba(0, 0, 0, 0.2)',
+          borderRadius: '3px',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          background: 'rgba(0, 0, 0, 0.3)',
+        },
       }}
     >
       {messages.map((message) => (

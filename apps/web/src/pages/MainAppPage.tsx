@@ -50,7 +50,8 @@ const MainAppPage: React.FC = () => {
         container 
         spacing={{ xs: 2, sm: 3, md: 4 }}
         sx={{ 
-          minHeight: { xs: 'auto', md: '600px' },
+          height: { xs: 'auto', md: 'calc(100vh - 200px)' },
+          maxHeight: { xs: 'none', md: '800px' },
           alignItems: 'stretch'
         }}
       >
