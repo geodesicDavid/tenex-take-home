@@ -34,7 +34,7 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ children }) => {
         </Typography>
       </Box>
       
-      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+<Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         {children || <ChatComponent />}
       </Box>
     </Paper>

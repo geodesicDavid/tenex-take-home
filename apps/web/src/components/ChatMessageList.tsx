@@ -26,7 +26,7 @@ const ChatMessageList: React.FC<ChatMessageListProps> = ({ messages, isLoading =
     };
 
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isLoading]);
 
   const showLoadingIndicator = isLoading && messages.length > 0 && !messages[messages.length - 1]?.isStreaming;
 
@@ -39,6 +39,22 @@ const ChatMessageList: React.FC<ChatMessageListProps> = ({ messages, isLoading =
           alignItems: 'center',
           justifyContent: 'center',
           minHeight: '200px',
+          // Keep scrollbar styling but use auto overflow
+          overflowY: 'auto',
+          '&::-webkit-scrollbar': {
+            width: '8px',
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: 'rgba(0, 0, 0, 0.1)',
+            borderRadius: '4px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            borderRadius: '4px',
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            },
+          },
         }}
       >
         <Typography variant="body2" color="text.secondary">
@@ -53,23 +69,25 @@ const ChatMessageList: React.FC<ChatMessageListProps> = ({ messages, isLoading =
       ref={containerRef}
       sx={{
         flex: 1,
-        overflowY: 'auto',
+        overflowY: 'auto', // Changed back to 'auto' for dynamic scrollbar
         px: 1,
         py: 2,
         display: 'flex',
         flexDirection: 'column',
+        // Ensure scrollbar is visible when it appears
         '&::-webkit-scrollbar': {
-          width: '6px',
+          width: '8px',
         },
         '&::-webkit-scrollbar-track': {
-          background: 'transparent',
+          backgroundColor: 'rgba(0, 0, 0, 0.1)',
+          borderRadius: '4px',
         },
         '&::-webkit-scrollbar-thumb': {
-          background: 'rgba(0, 0, 0, 0.2)',
-          borderRadius: '3px',
-        },
-        '&::-webkit-scrollbar-thumb:hover': {
-          background: 'rgba(0, 0, 0, 0.3)',
+          backgroundColor: 'rgba(0, 0, 0, 0.3)',
+          borderRadius: '4px',
+          '&:hover': {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          },
         },
       }}
     >

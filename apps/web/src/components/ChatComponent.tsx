@@ -23,9 +23,20 @@ const ChatComponent: React.FC = () => {
   }, [handleSendMessage]);
 
   return (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    <Box sx={{ 
+      height: '100%', 
+      display: 'flex', 
+      flexDirection: 'column',
+      overflow: 'hidden'
+    }}>
       {/* Message List */}
-      <ChatMessageList messages={messages} isLoading={isLoading} />
+      <Box sx={{ 
+        flex: 1, 
+        overflow: 'auto', // Changed from 'hidden' to 'auto' to allow scrolling
+        minHeight: 0
+      }}>
+        <ChatMessageList messages={messages} isLoading={isLoading} />
+      </Box>
 
       {/* Error Display */}
       {error && (

@@ -9,7 +9,7 @@ export interface UseCalendarEventsReturn {
   refetch: () => Promise<void>;
 }
 
-export const useCalendarEvents = (): UseCalendarEventsReturn => {
+export const useCalendarEvents = (daysPreview: number = 3): UseCalendarEventsReturn => {
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -18,7 +18,7 @@ export const useCalendarEvents = (): UseCalendarEventsReturn => {
     try {
       setLoading(true);
       setError(null);
-      const data = await getCalendarEvents();
+      const data = await getCalendarEvents(daysPreview);
       setEvents(Array.isArray(data) ? data : []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch calendar events');
@@ -31,7 +31,7 @@ export const useCalendarEvents = (): UseCalendarEventsReturn => {
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [daysPreview]);
 
   return {
     events,
