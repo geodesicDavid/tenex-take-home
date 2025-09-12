@@ -24,7 +24,7 @@ export const sendMessageStreaming = async (
       timestamp: new Date(),
     };
     
-    const response = await fetch('/api/chat/stream', {
+    const response = await fetch('/api/chat/stream-test', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export const sendMessageStreaming = async (
     const decoder = new TextDecoder();
     
     try {
-      while (!reader.closed) {
+      while (true) {
         const { done, value } = await reader.read();
         
         if (done) {

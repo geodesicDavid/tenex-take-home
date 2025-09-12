@@ -153,3 +153,42 @@ async def send_chat_message_streaming(
             status_code=500,
             detail=f"An error occurred while processing your message: {str(e)}"
         )
+
+@router.post("/stream-test")
+async def send_chat_message_streaming_test(
+    request: Request,
+    chat_request: ChatRequest
+):
+    """
+    Test endpoint for streaming chat responses without authentication.
+    """
+    try:
+        # Create a mock user for testing
+        mock_user = User(
+            id="test-user-id",
+            email="test@example.com",
+            name="Test User",
+            picture="https://via.placeholder.com/150"
+        )
+        
+        # Get calendar events to determine if context was included
+        calendar_events = []
+        if chat_request.include_calendar_context:
+            calendar_events = await chat_service._get_calendar_context(mock_user.id)
+        
+        # Create streaming response
+        response_generator = chat_service.process_message_streaming_plain(chat_request, mock_user)
+        
+        return streaming_utils.create_streaming_response(
+            response_generator=response_generator,
+            calendar_context_included=bool(calendar_events),
+            event_count=len(calendar_events)
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"An error occurred while processing your message: {str(e)}"
+        )

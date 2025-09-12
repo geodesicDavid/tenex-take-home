@@ -14,6 +14,7 @@ async def auth_middleware(request: Request, call_next: Callable):
         "/api/v1/auth/status",
         "/api/chat/test-stream",
         "/api/chat/test-stream-real",
+        "/api/chat/stream-test",
         "/health",
         "/",
         "/docs",
