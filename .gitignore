@@ -207,14 +207,14 @@ build/
 *.ii
 *.class
 
-# # Custom ignore folder
-# .ignore/
+# Custom ignore folder
+.ignore/
 
-# # Claude Code specific
-# .claude/
-# .bmad-core/
-# .gemini/
-# .qwen/
+# Claude Code specific
+.claude/
+.bmad-core/
+.gemini/
+.qwen/
 
-# # Temporary shell scripts
-# *.sh
+# Temporary shell scripts
+*.sh
