@@ -82,6 +82,23 @@ const ChatComponent: React.FC = () => {
     sendInitialMessage();
   }, [isLoading, messages.length, addMessage, updateMessage]);
 
+  
+  // Handle quick action events
+  useEffect(() => {
+    const handleQuickAction = (event: CustomEvent) => {
+      const action = event.detail;
+      
+      // Send the message directly without setting input state first
+      sendUserMessage(action);
+    };
+
+    window.addEventListener('quick-action', handleQuickAction as EventListener);
+    
+    return () => {
+      window.removeEventListener('quick-action', handleQuickAction as EventListener);
+    };
+  }, [sendUserMessage]);
+
   return (
     <Box sx={{ 
       height: '100%', 

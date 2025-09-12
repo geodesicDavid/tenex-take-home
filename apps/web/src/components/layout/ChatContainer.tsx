@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography, Paper } from '@mui/material';
 import ChatComponent from '../ChatComponent';
+import QuickActionsDropdown from '../QuickActionsDropdown';
 
 interface ChatContainerProps {
   children?: React.ReactNode;
@@ -20,18 +21,23 @@ const ChatContainer: React.FC<ChatContainerProps> = ({ children }) => {
       }}
     >
       <Box sx={{ p: 3, pb: 0 }}>
-        <Typography 
-          variant="h5" 
-          component="h2" 
-          gutterBottom
-          sx={{ 
-            fontWeight: 600,
-            color: 'secondary.main',
-            mb: 2
-          }}
-        >
-          Chat Interface
-        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Typography 
+            variant="h5" 
+            component="h2" 
+            sx={{ 
+              fontWeight: 600,
+              color: 'secondary.main',
+            }}
+          >
+            Chat Interface
+          </Typography>
+          <QuickActionsDropdown onActionSelect={(action) => {
+            // This will be handled by the ChatComponent
+            const event = new CustomEvent('quick-action', { detail: action });
+            window.dispatchEvent(event);
+          }} />
+        </Box>
       </Box>
       
 <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
