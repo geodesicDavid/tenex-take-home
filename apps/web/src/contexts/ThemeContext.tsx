@@ -369,10 +369,10 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
               root: {
                 color: '#5D4037',
                 fontWeight: 500,
-              },
-              selected: {
-                color: '#2E7D32',
-                fontWeight: 600,
+                '&.Mui-selected': {
+                  color: '#2E7D32',
+                  fontWeight: 600,
+                },
               },
             },
           },
@@ -573,10 +573,10 @@ export const CustomThemeProvider: React.FC<ThemeProviderProps> = ({ children }) 
               root: {
                 color: '#333333',
                 fontWeight: 500,
-              },
-              selected: {
-                color: '#FFD700',
-                fontWeight: 600,
+                '&.Mui-selected': {
+                  color: '#FFD700',
+                  fontWeight: 600,
+                },
               },
             },
           },
