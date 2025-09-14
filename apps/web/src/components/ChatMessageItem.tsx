@@ -24,10 +24,10 @@ const ChatMessageItem: React.FC<ChatMessageItemProps> = ({ message }) => {
                   {props.children}
                 </div>
               ),
-              ul: ({node, ...props}) => <ul style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
-              ol: ({node, ...props}) => <ol style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
-              li: ({node, ...props}) => <li style={{ marginBottom: '0.25em' }} {...props} />,
-              strong: ({node, ...props}) => <strong style={{ fontWeight: 600 }} {...props} />,
+              ul: ({...props}) => <ul style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
+              ol: ({...props}) => <ol style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
+              li: ({...props}) => <li style={{ marginBottom: '0.25em' }} {...props} />,
+              strong: ({...props}) => <strong style={{ fontWeight: 600 }} {...props} />,
             }}
           >
             {message.text}
@@ -60,10 +60,10 @@ const ChatMessageItem: React.FC<ChatMessageItemProps> = ({ message }) => {
                 {props.children}
               </div>
             ),
-            ul: ({node, ...props}) => <ul style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
-            ol: ({node, ...props}) => <ol style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
-            li: ({node, ...props}) => <li style={{ marginBottom: '0.25em' }} {...props} />,
-            strong: ({node, ...props}) => <strong style={{ fontWeight: 600 }} {...props} />,
+            ul: ({...props}) => <ul style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
+            ol: ({...props}) => <ol style={{ marginBottom: '1em', paddingLeft: '1.5em' }} {...props} />,
+            li: ({...props}) => <li style={{ marginBottom: '0.25em' }} {...props} />,
+            strong: ({...props}) => <strong style={{ fontWeight: 600 }} {...props} />,
           }}
         >
           {message.text}
