@@ -52,6 +52,18 @@ cd tenex-take-home
 
 ### 2. Install Dependencies
 
+#### Option 1: Fully automated
+./install.sh
+
+#### Option 2: Docker only
+make env-setup
+make docker-up
+
+#### Option 3: Traditional
+make install
+make dev
+
+#### Option 4: Full manual
 ```bash
 # Install root dependencies
 npm install
