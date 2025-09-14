@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
@@ -17,6 +17,12 @@ export default {
     '!src/vite-env.d.ts',
   ],
   transform: {
-    '^.+\\.tsx?: 'ts-jest',
+    '^.+\\.tsx?: ['ts-jest', {
+      tsconfig: '<rootDir>/tsconfig.json',
+    }],
+    'node_modules/react-markdown/.+\\.js: 'ts-jest',
   },
+  transformIgnorePatterns: [
+    '/node_modules/(?!react-markdown).+\\.js,
+  ],
 };

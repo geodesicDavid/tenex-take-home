@@ -1,10 +1,10 @@
 import { renderHook, act } from '@testing-library/react';
 import { useChatMessages } from '@/hooks/useChatMessages';
-import { sendMessage } from '../services/chatService';
+import { sendMessageStreaming } from '../services/chatService';
 
 // Mock the chat service
 jest.mock('../services/chatService');
-const mockSendMessage = sendMessage as jest.MockedFunction<typeof sendMessage>;
+const mockSendMessageStreaming = sendMessageStreaming as jest.MockedFunction<typeof sendMessageStreaming>;
 
 describe('useChatMessages', () => {
   beforeEach(() => {
@@ -20,12 +20,14 @@ describe('useChatMessages', () => {
   });
 
   it('adds user message and sends it when sendUserMessage is called', async () => {
-    const mockResponse = {
-      response: 'I hear you.',
-      timestamp: new Date(),
-    };
+    const mockOnChunk = jest.fn((onChunk, onError) => {
+      // Simulate streaming response
+      onChunk({ content: 'I hear you.', isComplete: false });
+      onChunk({ content: '', isComplete: true });
+      return Promise.resolve();
+    });
 
-    mockSendMessage.mockResolvedValue(mockResponse);
+    mockSendMessageStreaming.mockImplementation(mockOnChunk);
 
     const { result } = renderHook(() => useChatMessages());
 
@@ -45,8 +47,10 @@ describe('useChatMessages', () => {
       text: 'I hear you.',
       sender: 'agent',
       timestamp: expect.any(Date),
+      isStreaming: false,
+      isComplete: true,
     });
-    expect(mockSendMessage).toHaveBeenCalledWith('Hello');
+    expect(mockSendMessageStreaming).toHaveBeenCalledWith('Hello', expect.any(Function), expect.any(Function));
   });
 
   it('does not send empty message', async () => {
@@ -61,18 +65,16 @@ describe('useChatMessages', () => {
     });
 
     expect(result.current.messages).toHaveLength(0);
-    expect(mockSendMessage).not.toHaveBeenCalled();
+    expect(mockSendMessageStreaming).not.toHaveBeenCalled();
   });
 
   it('sets loading state during message sending', async () => {
-    const mockResponse = {
-      response: 'I hear you.',
-      timestamp: new Date(),
-    };
-
-    mockSendMessage.mockImplementation(() => {
+    mockSendMessageStreaming.mockImplementation((message, onChunk, onError) => {
       return new Promise((resolve) => {
-        setTimeout(() => resolve(mockResponse), 100);
+        setTimeout(() => {
+          onChunk({ content: 'Response', isComplete: true });
+          resolve();
+        }, 100);
       });
     });
 
@@ -92,7 +94,9 @@ describe('useChatMessages', () => {
   });
 
   it('sets error when message sending fails', async () => {
-    mockSendMessage.mockRejectedValue(new Error('Network error'));
+    mockSendMessageStreaming.mockImplementation((message, onChunk, onError) => {
+      return Promise.reject(new Error('Network error'));
+    });
 
     const { result } = renderHook(() => useChatMessages());
 
@@ -106,12 +110,12 @@ describe('useChatMessages', () => {
   });
 
   it('clears messages when clearMessages is called', async () => {
-    const mockResponse = {
-      response: 'I hear you.',
-      timestamp: new Date(),
-    };
+    const mockOnChunk = jest.fn((onChunk, onError) => {
+      onChunk({ content: 'I hear you.', isComplete: true });
+      return Promise.resolve();
+    });
 
-    mockSendMessage.mockResolvedValue(mockResponse);
+    mockSendMessageStreaming.mockImplementation(mockOnChunk);
 
     const { result } = renderHook(() => useChatMessages());
 
@@ -130,12 +134,12 @@ describe('useChatMessages', () => {
   });
 
   it('trims message text before sending', async () => {
-    const mockResponse = {
-      response: 'I hear you.',
-      timestamp: new Date(),
-    };
+    const mockOnChunk = jest.fn((onChunk, onError) => {
+      onChunk({ content: 'I hear you.', isComplete: true });
+      return Promise.resolve();
+    });
 
-    mockSendMessage.mockResolvedValue(mockResponse);
+    mockSendMessageStreaming.mockImplementation(mockOnChunk);
 
     const { result } = renderHook(() => useChatMessages());
 
@@ -143,19 +147,17 @@ describe('useChatMessages', () => {
       await result.current.sendUserMessage('  Hello  ');
     });
 
-    expect(mockSendMessage).toHaveBeenCalledWith('Hello');
+    expect(mockSendMessageStreaming).toHaveBeenCalledWith('Hello', expect.any(Function), expect.any(Function));
     expect(result.current.messages[0].text).toBe('Hello');
   });
 
   it('does not send message when already loading', async () => {
-    const mockResponse = {
-      response: 'I hear you.',
-      timestamp: new Date(),
-    };
-
-    mockSendMessage.mockImplementation(() => {
+    mockSendMessageStreaming.mockImplementation((message, onChunk, onError) => {
       return new Promise((resolve) => {
-        setTimeout(() => resolve(mockResponse), 100);
+        setTimeout(() => {
+          onChunk({ content: 'Response', isComplete: true });
+          resolve();
+        }, 100);
       });
     });
 
@@ -172,7 +174,7 @@ describe('useChatMessages', () => {
       await result.current.sendUserMessage('Second message');
     });
 
-    expect(mockSendMessage).toHaveBeenCalledTimes(1);
-    expect(mockSendMessage).toHaveBeenCalledWith('First message');
+    expect(mockSendMessageStreaming).toHaveBeenCalledTimes(1);
+    expect(mockSendMessageStreaming).toHaveBeenCalledWith('First message', expect.any(Function), expect.any(Function));
   });
 });

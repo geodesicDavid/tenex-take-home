@@ -131,7 +131,7 @@ class LLMService:
     def get_model_info(self) -> Dict[str, Any]:
         """Get information about the configured model."""
         return {
-            "model_name": "gemini-2.-5flash-lite",
+            "model_name": "gemini-2.5-flash-lite",
             "api_key_configured": bool(self.api_key),
             "max_retries": self.max_retries,
             "timeout": self.timeout

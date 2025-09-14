@@ -4,7 +4,7 @@ from app.models.user import User
 from app.services.calendar_service import calendar_service
 from app.core.middleware import require_auth
 
-router = APIRouter(prefix="/api/calendar", tags=["calendar"])
+router = APIRouter(prefix="/api/v1/calendar", tags=["calendar"])
 
 
 @router.get("/events", response_model=CalendarEventResponse)

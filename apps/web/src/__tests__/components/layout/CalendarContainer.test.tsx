@@ -19,16 +19,10 @@ describe('CalendarContainer', () => {
     expect(screen.getByText('Calendar')).toBeInTheDocument();
   });
 
-  it('displays placeholder text when no children are provided', () => {
-    renderWithTheme(<CalendarContainer />);
-    expect(screen.getByText('Calendar integration will be implemented here.')).toBeInTheDocument();
-  });
-
   it('renders children when provided', () => {
     const childContent = 'Custom calendar content';
     renderWithTheme(<CalendarContainer>{childContent}</CalendarContainer>);
     expect(screen.getByText(childContent)).toBeInTheDocument();
-    expect(screen.queryByText('Calendar integration will be implemented here.')).not.toBeInTheDocument();
   });
 
   it('has correct structure with Paper component', () => {

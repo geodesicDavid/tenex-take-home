@@ -1,7 +1,7 @@
-import React from 'react';
-import { Box, Typography, CircularProgress, Button } from '@mui/material';
-import CalendarEventItem from './CalendarEventItem';
+import React, { Fragment } from 'react';
+import { Box, Typography, CircularProgress, Alert, Button } from '@mui/material';
 import { CalendarEvent } from '@tenex/shared';
+import CalendarEventItem from './CalendarEventItem';
 
 interface CalendarEventListProps {
   events: CalendarEvent[];
@@ -16,87 +16,82 @@ const CalendarEventList: React.FC<CalendarEventListProps> = ({
   error, 
   onRetry 
 }) => {
+  // Group events by date
+  const groupedEvents = events.reduce((acc, event) => {
+    const date = new Date(event.start_time).toDateString();
+    if (!acc[date]) {
+      acc[date] = [];
+    }
+    acc[date].push(event);
+    return acc;
+  }, {} as Record<string, CalendarEvent[]>);
+
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 4 }}>
-        <CircularProgress size={40} />
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100%',
+        minHeight: '200px'
+      }}>
+        <CircularProgress />
       </Box>
     );
   }
 
   if (error) {
     return (
-      <Box sx={{ textAlign: 'center', py: 4 }}>
-        <Typography variant="body1" color="error" gutterBottom>
-          {error}
-        </Typography>
-        <Button 
-          variant="outlined" 
-          onClick={onRetry}
-          sx={{ mt: 2 }}
-        >
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: 'column',
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100%',
+        minHeight: '200px',
+        gap: 2
+      }}>
+        <Alert severity="error">{error}</Alert>
+        <Button variant="contained" onClick={onRetry}>
           Retry
         </Button>
       </Box>
     );
   }
 
-  if (!events || events.length === 0) {
+  if (events.length === 0) {
     return (
-      <Box sx={{ textAlign: 'center', py: 4 }}>
-        <Typography variant="body1" color="text.secondary">
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '100%',
+        minHeight: '200px'
+      }}>
+        <Typography variant="h6" color="text.secondary">
           No upcoming events found
         </Typography>
       </Box>
     );
   }
 
-  // Group events by date
-  const groupedEvents: { [date: string]: CalendarEvent[] } = {};
-  events.forEach(event => {
-    const dateKey = new Date(event.start_time).toDateString();
-    if (!groupedEvents[dateKey]) {
-      groupedEvents[dateKey] = [];
-    }
-    groupedEvents[dateKey].push(event);
-  });
-
   return (
     <Box sx={{ 
-      display: 'flex', 
-      flexDirection: 'column', 
-      gap: 1,
+      height: '100%',
       overflowY: 'auto',
-      maxHeight: '100%',
-      '&::-webkit-scrollbar': {
-        width: '8px',
-      },
-      '&::-webkit-scrollbar-track': {
-        backgroundColor: 'rgba(0, 0, 0, 0.1)',
-        borderRadius: '4px',
-      },
-      '&::-webkit-scrollbar-thumb': {
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-        borderRadius: '4px',
-        '&:hover': {
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        },
-      },
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 2
     }}>
-      {Object.entries(groupedEvents).map(([date, dateEvents], index) => (
-        <React.Fragment key={date}>
+      {Object.entries(groupedEvents).map(([date, dateEvents]) => (
+        <Fragment key={date}>
           <Box>
             <Typography 
               variant="h6" 
               sx={{ 
-                fontWeight: 600, 
-                color: 'primary.main',
+                fontWeight: 600,
                 mb: 1,
-                position: 'sticky',
-                top: 0,
-                backgroundColor: 'background.paper',
-                zIndex: 1,
-                pb: 1
+                color: 'text.primary'
               }}
             >
               {new Date(date).toLocaleDateString([], { 
@@ -111,16 +106,7 @@ const CalendarEventList: React.FC<CalendarEventListProps> = ({
               ))}
             </Box>
           </Box>
-          
-          {/* Heavy line separator between days (except after the last day) */}
-          {index < Object.keys(groupedEvents).length - 1 && (
-            <Box sx={{ 
-              height: '3px', 
-              backgroundColor: 'divider', 
-              my: 1 
-            }} />
-          )}
-        </React.Fragment>
+        </Fragment>
       ))}
     </Box>
   );

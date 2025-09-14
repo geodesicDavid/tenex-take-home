@@ -15,7 +15,7 @@ def chat_service():
 
 @pytest.fixture
 def test_user():
-    return User(id="test_user_id", email="test@example.com")
+    return User(id="test_user_id", email="test@example.com", name="Test User")
 
 
 @pytest.fixture

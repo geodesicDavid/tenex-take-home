@@ -25,6 +25,8 @@ describe('chatService', () => {
     expect(mockApiClient.post).toHaveBeenCalledWith('/chat', {
       message: 'Hello',
       timestamp: expect.any(Date),
+    }, {
+      withCredentials: true,
     });
     expect(result).toEqual(mockResponse.data);
   });
@@ -51,6 +53,8 @@ describe('chatService', () => {
     expect(mockApiClient.post).toHaveBeenCalledWith('/chat', {
       message: '',
       timestamp: expect.any(Date),
+    }, {
+      withCredentials: true,
     });
     expect(result).toEqual(mockResponse.data);
   });

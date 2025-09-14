@@ -4,6 +4,7 @@ from unittest.mock import Mock, patch, MagicMock
 from fastapi.testclient import TestClient
 from app.main import app
 from app.models.user import User, UserSession, GoogleUserInfo
+from app.models.calendar import CalendarEvent
 from app.core.auth import auth_service
 from app.services.calendar_service import calendar_service
 from app.services.secret_manager import secret_manager
@@ -79,13 +80,13 @@ class TestCalendarEndpoints:
         mock_get_current_user.return_value = mock_user
         
         with patch.object(calendar_service, 'fetch_calendar_events', return_value=[
-            {
-                "id": "event1",
-                "summary": "Test Event 1",
-                "description": "Test Description 1",
-                "start": datetime(2025, 9, 10, 10, 0, 0, tzinfo=timezone.utc),
-                "end": datetime(2025, 9, 10, 11, 0, 0, tzinfo=timezone.utc)
-            }
+            CalendarEvent(
+                id="event1",
+                summary="Test Event 1",
+                description="Test Description 1",
+                start_time=datetime(2025, 9, 10, 10, 0, 0, tzinfo=timezone.utc),
+                end_time=datetime(2025, 9, 10, 11, 0, 0, tzinfo=timezone.utc)
+            )
         ]):
             # Create a session in the session_store
             from app.core.auth import session_store
@@ -362,8 +363,8 @@ class TestCalendarService:
         assert event.id == "test_event"
         assert event.summary == "Test Event"
         assert event.description == "Test Description"
-        assert isinstance(event.start, datetime)
-        assert isinstance(event.end, datetime)
+        assert isinstance(event.start_time, datetime)
+        assert isinstance(event.end_time, datetime)
     
     def test_transform_google_event_date(self):
         """Test transforming Google Calendar event with date only"""
@@ -379,8 +380,8 @@ class TestCalendarService:
         assert event is not None
         assert event.id == "test_event"
         assert event.summary == "Test Event"
-        assert isinstance(event.start, datetime)
-        assert isinstance(event.end, datetime)
+        assert isinstance(event.start_time, datetime)
+        assert isinstance(event.end_time, datetime)
     
     def test_parse_datetime_datetime_string(self):
         """Test parsing datetime string"""

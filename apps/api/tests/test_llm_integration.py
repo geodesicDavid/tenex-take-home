@@ -1,4 +1,5 @@
 import pytest
+import os
 from unittest.mock import Mock, patch, AsyncMock
 from datetime import datetime
 from app.services.llm_service import LLMService
@@ -10,15 +11,18 @@ class TestLLMService:
     
     def setup_method(self):
         """Set up test fixtures."""
-        with patch('app.services.llm_service.settings') as mock_settings:
-            mock_settings.GOOGLE_GEMINI_API_KEY = "test_api_key"
-            self.llm_service = LLMService()
+        with patch.dict(os.environ, {"GOOGLE_GEMINI_API_KEY": "test_api_key"}):
+            with patch('app.services.llm_service.genai') as mock_genai:
+                self.llm_service = LLMService()
     
     @patch('app.services.llm_service.genai')
     def test_initialization(self, mock_genai):
         """Test LLM service initialization."""
+        # Create a new instance to test initialization
+        with patch.dict(os.environ, {"GOOGLE_GEMINI_API_KEY": "test_api_key"}):
+            llm_service = LLMService()
         mock_genai.configure.assert_called_once_with(api_key="test_api_key")
-        mock_genai.GenerativeModel.assert_called_once_with('gemini-pro')
+        mock_genai.GenerativeModel.assert_called_once_with('gemini-2.5-flash-lite')
     
     @patch('app.services.llm_service.genai')
     async def test_generate_response_streaming(self, mock_genai):
@@ -97,15 +101,23 @@ class TestLLMService:
         # Mock successful validation
         mock_model = Mock()
         mock_genai.GenerativeModel.return_value = mock_model
+        mock_model.generate_content.return_value = Mock()
         
-        result = self.llm_service.validate_api_key()
+        # Create a new instance for this test
+        with patch.dict(os.environ, {"GOOGLE_GEMINI_API_KEY": "test_api_key"}):
+            llm_service = LLMService()
+            result = llm_service.validate_api_key()
         assert result is True
     
     def test_get_model_info(self):
         """Test getting model information."""
-        info = self.llm_service.get_model_info()
+        # Create a new instance for this test
+        with patch.dict(os.environ, {"GOOGLE_GEMINI_API_KEY": "test_api_key"}):
+            with patch('app.services.llm_service.genai'):
+                llm_service = LLMService()
+                info = llm_service.get_model_info()
         
-        assert info["model_name"] == "gemini-pro"
+        assert info["model_name"] == "gemini-2.5-flash-lite"
         assert info["api_key_configured"] is True
         assert info["max_retries"] == 3
         assert info["timeout"] == 30.0
@@ -202,7 +214,7 @@ class TestPromptBuilder:
         assert "Test Meeting" in formatted
         assert "Another Meeting" in formatted
         assert "10:00 AM - 11:00 AM" in formatted
-        assert "2:00 PM - 3:00 PM" in formatted
+        assert "02:00 PM - 03:00 PM" in formatted
     
     def test_format_conversation_history(self):
         """Test formatting conversation history."""

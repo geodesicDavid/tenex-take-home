@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, Paper } from '@mui/material';
 import { CalendarEvent } from '@tenex/shared';
 
@@ -7,9 +7,9 @@ interface CalendarEventItemProps {
 }
 
 const CalendarEventItem: React.FC<CalendarEventItemProps> = ({ event }) => {
-  const [currentTime, setCurrentTime] = React.useState(new Date());
+  const [currentTime, setCurrentTime] = useState(new Date());
   
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 60000); // Update every minute
