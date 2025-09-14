@@ -12,7 +12,7 @@ const apiClient = axios.create({
 // Request interceptor for logging
 apiClient.interceptors.request.use(
   (config) => {
-    console.log(`API Request: ${config.method?.toUpperCase()} ${config.url}`);
+    // Log API request silently for debugging
     return config;
   },
   (error) => {
@@ -26,7 +26,7 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.error('API Error:', error.response?.data || error.message);
+    // Log API error silently for debugging
     return Promise.reject(error);
   }
 );

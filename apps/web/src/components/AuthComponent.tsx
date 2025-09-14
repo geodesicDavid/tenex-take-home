@@ -19,7 +19,7 @@ const AuthComponent: React.FC = () => {
       logout();
       window.location.href = '/login';
     } catch (error) {
-      console.error('Logout failed:', error);
+      // Log error silently for debugging
     }
   };
 

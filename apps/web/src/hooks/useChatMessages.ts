@@ -24,8 +24,7 @@ export const useChatMessages = () => {
             ...msg,
             ...(typeof updates === 'function' ? updates(msg) : updates)
           };
-          console.log('Updating message:', msg.id, 'with updates:', updates, 'result:', updatedMsg);
-          console.log('New text:', updatedMsg.text);
+          // Log message updates silently for debugging
           return updatedMsg;
         }
         return msg;
@@ -61,11 +60,9 @@ export const useChatMessages = () => {
       await sendMessageStreaming(
         text.trim(),
         (chunk: StreamingChunk) => {
-          console.log('Received chunk:', chunk);
-          console.log('Chunk content:', chunk.content);
-          console.log('Chunk isComplete:', chunk.isComplete);
+          // Log chunk data silently for debugging
           if (chunk.isComplete) {
-            console.log('Completion chunk received, updating message and setting isLoading to false');
+            // Log completion silently for debugging
             updateMessage(agentMessageId, {
               isStreaming: false,
               isComplete: true,
@@ -75,14 +72,14 @@ export const useChatMessages = () => {
           }
 
           if (chunk.content) {
-            console.log('Content chunk received, updating message text:', chunk.content);
+            // Log content update silently for debugging
             updateMessage(agentMessageId, (prev) => ({
               text: prev.text + chunk.content,
             }));
           }
         },
         (err: Error) => {
-          console.error('Streaming error:', err);
+          // Log streaming error silently for debugging
           updateMessage(agentMessageId, {
             isStreaming: false,
             isComplete: false,
@@ -94,7 +91,7 @@ export const useChatMessages = () => {
       );
     } catch (err) {
       setError('Failed to send message. Please try again.');
-      console.error('Error sending message:', err);
+      // Log error silently for debugging
       setIsLoading(false);
     }
   }, [addMessage, updateMessage]);

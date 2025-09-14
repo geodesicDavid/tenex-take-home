@@ -10,13 +10,15 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const useThemeContext = () => {
+const useThemeContext = () => {
   const context = useContext(ThemeContext);
   if (context === undefined) {
     throw new Error('useThemeContext must be used within a ThemeProvider');
   }
   return context;
 };
+
+export { useThemeContext };
 
 interface ThemeProviderProps {
   children: ReactNode;

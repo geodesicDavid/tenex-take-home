@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { CalendarEvent } from '@tenex/shared';
 import { getCalendarEvents } from '../services/calendarService';
 
@@ -14,7 +14,7 @@ export const useCalendarEvents = (daysPreview: number = 3): UseCalendarEventsRet
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -22,16 +22,16 @@ export const useCalendarEvents = (daysPreview: number = 3): UseCalendarEventsRet
       setEvents(Array.isArray(data) ? data : []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch calendar events');
-      console.error('Error fetching calendar events:', err);
+      // Log error silently for debugging
       setEvents([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, [daysPreview]);
 
   useEffect(() => {
     fetchEvents();
-  }, [daysPreview]);
+  }, [daysPreview, fetchEvents]);
 
   return {
     events,

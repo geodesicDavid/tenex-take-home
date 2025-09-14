@@ -72,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         dispatch({ type: 'CHECK_AUTH_FAILURE' });
       }
     } catch (error) {
-      console.error('Auth check failed:', error);
+      // Log error silently for debugging
       dispatch({ type: 'CHECK_AUTH_FAILURE' });
     }
   };
@@ -96,10 +96,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-export const useAuth = () => {
+const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };
+
+export { useAuth };

@@ -1,5 +1,4 @@
-import React from 'react';
-import { render } from '@testing-library/react';
+// Simple test file
 
 test('simple test', () => {
   expect(1).toBe(1);

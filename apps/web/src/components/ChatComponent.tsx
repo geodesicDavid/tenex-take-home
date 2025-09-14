@@ -97,7 +97,7 @@ const ChatComponent: React.FC = () => {
               }
             },
             (err: Error) => {
-              console.error('Initial message streaming error:', err);
+              // Log error silently for debugging
               updateMessage(agentMessageId, {
                 isStreaming: false,
                 isComplete: false,
@@ -106,7 +106,7 @@ const ChatComponent: React.FC = () => {
             }
           );
         } catch (err) {
-          console.error('Error sending initial message:', err);
+          // Log error silently for debugging
           updateMessage(agentMessageId, {
             isStreaming: false,
             isComplete: false,

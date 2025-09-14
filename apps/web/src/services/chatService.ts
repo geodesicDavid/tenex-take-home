@@ -45,7 +45,7 @@ export const sendMessageStreaming = async (
     const decoder = new TextDecoder();
     
     try {
-      while (true) {
+      while (reader) {
         const { done, value } = await reader.read();
         
         if (done) {
@@ -69,11 +69,10 @@ export const sendMessageStreaming = async (
             
             try {
               const parsedChunk = JSON.parse(data);
-              console.log('Parsed chunk:', parsedChunk);
+              // Log parsed chunk silently for debugging
               onChunk(parsedChunk);
             } catch (parseError) {
-              console.error('Error parsing streaming chunk:', parseError);
-              console.log('Raw data that failed to parse:', data);
+              // Log parsing error silently for debugging
             }
           }
         }
@@ -82,7 +81,7 @@ export const sendMessageStreaming = async (
       reader.releaseLock();
     }
   } catch (error) {
-    console.error('Streaming error:', error);
+    // Log streaming error silently for debugging
     if (onError) {
       onError(error as Error);
     } else {

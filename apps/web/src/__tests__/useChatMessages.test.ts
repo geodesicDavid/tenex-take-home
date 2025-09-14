@@ -31,7 +31,7 @@ describe('useChatMessages', () => {
   });
 
   it('adds user message and sends it when sendUserMessage is called', async () => {
-    mockSendMessageStreaming.mockImplementation((message, onChunk, onError) => {
+    mockSendMessageStreaming.mockImplementation((_message, onChunk, _onError) => {
       // Simulate streaming response
       onChunk({ content: 'I hear you.', isComplete: false });
       onChunk({ content: '', isComplete: true });
@@ -78,7 +78,7 @@ describe('useChatMessages', () => {
   });
 
   it('sets loading state during message sending', async () => {
-    mockSendMessageStreaming.mockImplementation((message, onChunk, onError) => {
+    mockSendMessageStreaming.mockImplementation((_message, onChunk, _onError) => {
       return new Promise((resolve) => {
         setTimeout(() => {
           onChunk({ content: 'Response', isComplete: true });
@@ -103,7 +103,7 @@ describe('useChatMessages', () => {
   });
 
   it('sets error when message sending fails', async () => {
-    mockSendMessageStreaming.mockImplementation((message, onChunk, onError) => {
+    mockSendMessageStreaming.mockImplementation((_message, _onChunk, _onError) => {
       return Promise.reject(new Error('Network error'));
     });
 
@@ -120,7 +120,7 @@ describe('useChatMessages', () => {
   });
 
   it('clears messages when clearMessages is called', async () => {
-    mockSendMessageStreaming.mockImplementation((message, onChunk, onError) => {
+    mockSendMessageStreaming.mockImplementation((_message, onChunk, _onError) => {
       onChunk({ content: 'I hear you.', isComplete: true });
       return Promise.resolve();
     });
@@ -142,7 +142,7 @@ describe('useChatMessages', () => {
   });
 
   it('trims message text before sending', async () => {
-    mockSendMessageStreaming.mockImplementation((message, onChunk, onError) => {
+    mockSendMessageStreaming.mockImplementation((_message, onChunk, _onError) => {
       onChunk({ content: 'I hear you.', isComplete: true });
       return Promise.resolve();
     });
@@ -158,7 +158,7 @@ describe('useChatMessages', () => {
   });
 
   it('does not send message when already loading', async () => {
-    mockSendMessageStreaming.mockImplementation((message, onChunk, onError) => {
+    mockSendMessageStreaming.mockImplementation((_message, onChunk, _onError) => {
       return new Promise((resolve) => {
         setTimeout(() => {
           onChunk({ content: 'Response', isComplete: true });
