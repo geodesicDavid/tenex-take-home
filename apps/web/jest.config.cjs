@@ -3,8 +3,8 @@ module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   moduleNameMapper: {
-    '^@/(.*): '<rootDir>/src/$1',
-    '\\.(css|less|scss|sass): 'identity-obj-proxy',
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.{ts,tsx}',
@@ -17,12 +17,12 @@ module.exports = {
     '!src/vite-env.d.ts',
   ],
   transform: {
-    '^.+\\.tsx?: ['ts-jest', {
+    '^.+\\.tsx?$': ['ts-jest', {
       tsconfig: '<rootDir>/tsconfig.json',
     }],
-    'node_modules/react-markdown/.+\\.js: 'ts-jest',
+    'node_modules/react-markdown/.+\\.js': 'ts-jest',
   },
   transformIgnorePatterns: [
-    '/node_modules/(?!react-markdown).+\\.js,
+    '/node_modules/(?!react-markdown).+\\.js',
   ],
 };

@@ -94,7 +94,7 @@ describe('CalendarEventList', () => {
         onRetry={jest.fn()} 
       />
     );
-    const eventItems = screen.getAllByRole('article');
+    const eventItems = screen.getAllByTestId('calendar-event-item');
     expect(eventItems).toHaveLength(2);
   });
 });

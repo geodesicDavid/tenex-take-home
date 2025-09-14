@@ -59,6 +59,7 @@ const CalendarEventItem: React.FC<CalendarEventItemProps> = ({ event }) => {
 
   return (
     <Paper 
+      data-testid="calendar-event-item"
       elevation={isCurrentlyHappening ? 3 : 1}
       sx={{ 
         p: 2, 

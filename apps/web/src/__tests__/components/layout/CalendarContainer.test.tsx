@@ -3,6 +3,27 @@ import { render, screen } from '@testing-library/react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CalendarContainer from '../../../components/layout/CalendarContainer';
 
+// Mock the useCalendarEvents hook
+jest.mock('../../../hooks/useCalendarEvents', () => ({
+  useCalendarEvents: () => ({
+    events: [],
+    loading: false,
+    error: null,
+    refetch: jest.fn(),
+  }),
+}));
+
+// Mock console.error to silence error logging in tests
+beforeEach(() => {
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+  jest.spyOn(console, 'log').mockImplementation(() => {});
+});
+
+afterEach(() => {
+  (console.error as jest.Mock).mockRestore();
+  (console.log as jest.Mock).mockRestore();
+});
+
 const theme = createTheme();
 
 const renderWithTheme = (component: React.ReactElement) => {

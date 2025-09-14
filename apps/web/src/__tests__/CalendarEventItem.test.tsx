@@ -40,6 +40,8 @@ describe('CalendarEventItem', () => {
       end_time: new Date('2024-01-02T11:00:00')
     };
     render(<CalendarEventItem event={multiDayEvent} />);
-    expect(screen.getByText(/Mon, Jan 1.*Tue, Jan 2/)).toBeInTheDocument();
+    expect(screen.getByText(/Mon, Jan 1/)).toBeInTheDocument();
+    expect(screen.getByText(/Tue, Jan 2/)).toBeInTheDocument();
+    expect(screen.getByText(/10:00 AM.*Tue, Jan 2 11:00 AM/)).toBeInTheDocument();
   });
 });

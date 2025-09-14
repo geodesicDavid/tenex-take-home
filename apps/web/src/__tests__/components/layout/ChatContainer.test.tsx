@@ -3,6 +3,24 @@ import { render, screen } from '@testing-library/react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ChatContainer from '../../../components/layout/ChatContainer';
 
+// Mock QuickActionsDropdown
+jest.mock('../../../components/QuickActionsDropdown', () => ({
+  __esModule: true,
+  default: () => <div data-testid="quick-actions-dropdown">Quick Actions Dropdown</div>
+}));
+
+// Mock ChatMessageList
+jest.mock('../../../components/ChatMessageList', () => ({
+  __esModule: true,
+  default: () => <div data-testid="chat-message-list">Chat Message List</div>
+}));
+
+// Mock ChatComponent
+jest.mock('../../../components/ChatComponent', () => ({
+  __esModule: true,
+  default: () => <div data-testid="chat-component">Chat Component</div>
+}));
+
 const theme = createTheme();
 
 const renderWithTheme = (component: React.ReactElement) => {
@@ -19,9 +37,9 @@ describe('ChatContainer', () => {
     expect(screen.getByText('Chat Interface')).toBeInTheDocument();
   });
 
-  it('displays placeholder text when no children are provided', () => {
+  it('displays ChatComponent when no children are provided', () => {
     renderWithTheme(<ChatContainer />);
-    expect(screen.getByText('Chat interface will be implemented here.')).toBeInTheDocument();
+    expect(screen.getByTestId('chat-component')).toBeInTheDocument();
   });
 
   it('renders children when provided', () => {
