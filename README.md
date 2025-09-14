@@ -99,8 +99,9 @@ GOOGLE_CLIENT_ID=your-google-client-id
 GOOGLE_CLIENT_SECRET=your-google-client-secret
 GOOGLE_REDIRECT_URI=http://localhost:8000/api/auth/google/callback
 GEMINI_API_KEY=your-gemini-api-key
-SECRET_KEY=a-very-secret-key-for-local-dev
 FRONTEND_URL=http://localhost:3000
+SECRET_KEY=a-very-secret-key-for-local-dev
+# (SECRET_KEY is generated with openssl rand -hex 32)
 ```
 
 ### 4. Google Cloud Setup
