@@ -130,9 +130,6 @@ FRONTEND_URL=http://localhost:3000
 ### Starting Development Servers
 
 ```bash
-# Start all development servers (frontend + backend)
-npm run dev
-
 # Start individual services
 cd apps/web && npm run dev          # Frontend only (localhost:3000)
 cd apps/api && npm run dev          # Backend only (localhost:8000)
@@ -142,8 +139,6 @@ cd packages/shared && npm run build # Build shared types
 ### Building
 
 ```bash
-# Build all applications
-npm run build
 
 # Build individual components
 cd apps/web && npm run build        # Build frontend
@@ -153,8 +148,6 @@ cd packages/shared && npm run build # Build shared types
 ### Testing
 
 ```bash
-# Run all tests
-npm test
 
 # Run specific test suites
 cd apps/web && npm run test         # Frontend tests
@@ -164,8 +157,6 @@ cd apps/api && npm run test         # Backend tests
 ### Linting
 
 ```bash
-# Lint all code
-npm run lint
 
 # Lint specific components
 cd apps/web && npm run lint          # Frontend linting
@@ -175,8 +166,6 @@ cd apps/api && npm run lint          # Backend linting
 ### Cleaning
 
 ```bash
-# Clean all build artifacts
-npm run clean
 
 # Clean specific components
 cd apps/web && npm run clean        # Clean frontend
@@ -223,7 +212,8 @@ tenex-take-home/
 
 1. **Start Development Servers:**
    ```bash
-   npm run dev
+   cd apps/web && npm run dev
+   cd apps/api && npm run dev
    ```
 
 2. **Open Browser:** Navigate to http://localhost:3000
@@ -244,9 +234,6 @@ tenex-take-home/
 ### Automated Testing
 
 ```bash
-# Run all tests
-npm test
-
 # Run tests with coverage
 cd apps/web && npm run test -- --coverage
 cd apps/api && npm run test -- --cov=app
