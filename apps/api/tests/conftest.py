@@ -41,7 +41,7 @@ def mock_google_oauth():
 @pytest.fixture
 def mock_secret_manager():
     """Mock Secret Manager service"""
-    with patch('app.services.secret_manager.secretmanager.SecretManagerServiceClient') as mock_client:
+    with patch('app.services.secret_manager.MockSecretManagerService') as mock_client:
         mock_client_instance = Mock()
         mock_client.return_value = mock_client_instance
         
