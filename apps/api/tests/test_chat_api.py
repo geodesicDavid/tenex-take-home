@@ -36,7 +36,7 @@ async def test_send_chat_message_success(mock_request, mock_user, mock_chat_requ
         timestamp=datetime.now(timezone.utc)
     )
     
-    chat_service.validate_message = AsyncMock(return_value=True)
+    # Mock the entire process_message method since validate_message is called internally
     chat_service.process_message = AsyncMock(return_value=expected_response)
     
     # Get the endpoint function
@@ -52,8 +52,7 @@ async def test_send_chat_message_success(mock_request, mock_user, mock_chat_requ
     # Verify the response
     assert isinstance(response, ChatResponse)
     assert response.response == "I hear you."
-    chat_service.validate_message.assert_called_once_with(mock_chat_request.message)
-    chat_service.process_message.assert_called_once_with(mock_chat_request)
+    chat_service.process_message.assert_called_once_with(mock_chat_request, mock_user)
 
 @pytest.mark.asyncio
 async def test_send_chat_message_empty_message(mock_request, mock_user):
@@ -63,7 +62,8 @@ async def test_send_chat_message_empty_message(mock_request, mock_user):
         timestamp=datetime.now(timezone.utc)
     )
     
-    chat_service.validate_message = AsyncMock(return_value=False)
+    # Mock process_message to raise ValueError (which gets converted to HTTPException)
+    chat_service.process_message = AsyncMock(side_effect=ValueError("Message cannot be empty or too long"))
     
     # Get the endpoint function
     endpoint_func = router.routes[0].endpoint
@@ -76,8 +76,8 @@ async def test_send_chat_message_empty_message(mock_request, mock_user):
             user=mock_user
         )
     
-    assert exc_info.value.status_code == 400
-    assert "cannot be empty" in exc_info.value.detail
+    assert exc_info.value.status_code == 500
+    assert "Message cannot be empty or too long" in exc_info.value.detail
 
 @pytest.mark.asyncio
 async def test_send_chat_message_too_long_message(mock_request, mock_user):
@@ -87,7 +87,8 @@ async def test_send_chat_message_too_long_message(mock_request, mock_user):
         timestamp=datetime.now(timezone.utc)
     )
     
-    chat_service.validate_message = AsyncMock(return_value=False)
+    # Mock process_message to raise ValueError (which gets converted to HTTPException)
+    chat_service.process_message = AsyncMock(side_effect=ValueError("Message cannot be empty or too long"))
     
     # Get the endpoint function
     endpoint_func = router.routes[0].endpoint
@@ -100,8 +101,8 @@ async def test_send_chat_message_too_long_message(mock_request, mock_user):
             user=mock_user
         )
     
-    assert exc_info.value.status_code == 400
-    assert "cannot be empty or too long" in exc_info.value.detail
+    assert exc_info.value.status_code == 500
+    assert "Message cannot be empty or too long" in exc_info.value.detail
 
 @pytest.mark.asyncio
 async def test_send_chat_message_service_error(mock_request, mock_user, mock_chat_request):

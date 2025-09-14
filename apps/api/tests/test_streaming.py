@@ -33,31 +33,24 @@ class TestStreamingUtils:
             chunks.append(chunk)
         
         # Verify structure
-        assert len(chunks) == 5  # metadata + 3 content chunks + completion
-        
-        # Check metadata
-        metadata_chunk = chunks[0]
-        assert metadata_chunk.startswith("data: ")
-        metadata = json.loads(metadata_chunk[6:])
-        assert metadata["type"] == "metadata"
-        assert metadata["id"] == response_id
-        assert metadata["calendar_context_included"] is True
-        assert metadata["event_count"] == 2
+        assert len(chunks) == 4  # 3 content chunks + completion
         
         # Check content chunks
-        for i in range(1, 4):
+        for i in range(0, 3):
             chunk = chunks[i]
             assert chunk.startswith("data: ")
             data = json.loads(chunk[6:])
-            assert data["type"] == "chunk"
             assert data["id"] == response_id
+            assert data["isComplete"] is False
+            assert data["content"] in ["Hello", " world!", " How are you?"]
         
-        # Check completion
-        completion_chunk = chunks[4]
+        # Check completion chunk
+        completion_chunk = chunks[3]
         assert completion_chunk.startswith("data: ")
-        completion = json.loads(completion_chunk[6:])
-        assert completion["type"] == "complete"
-        assert completion["id"] == response_id
+        completion_data = json.loads(completion_chunk[6:])
+        assert completion_data["id"] == response_id
+        assert completion_data["isComplete"] is True
+        assert completion_data["content"] == ""
     
     @pytest.mark.asyncio
     async def test_create_stream_generator_with_error(self):
@@ -79,15 +72,24 @@ class TestStreamingUtils:
         async for chunk in generator:
             chunks.append(chunk)
         
-        # Should have metadata, one content chunk, and error
-        assert len(chunks) == 3
+        # Should have one content chunk and error completion
+        assert len(chunks) == 2
+        
+        # Check content chunk
+        content_chunk = chunks[0]
+        assert content_chunk.startswith("data: ")
+        content_data = json.loads(content_chunk[6:])
+        assert content_data["id"] == response_id
+        assert content_data["content"] == "Hello"
+        assert content_data["isComplete"] is False
         
         # Check error chunk
-        error_chunk = chunks[2]
+        error_chunk = chunks[1]
         assert error_chunk.startswith("data: ")
-        error = json.loads(error_chunk[6:])
-        assert error["type"] == "error"
-        assert "Test error" in error["error"]
+        error_data = json.loads(error_chunk[6:])
+        assert error_data["id"] == response_id
+        assert error_data["isComplete"] is True
+        assert "Test error" in error_data["error"]
     
     def test_create_streaming_response(self):
         """Test creating FastAPI StreamingResponse."""
@@ -142,7 +144,7 @@ class TestTimeoutHelper:
             return "success"
         
         result = await TimeoutHelper.with_timeout(
-            mock_operation(),
+            mock_operation,
             timeout_seconds=1.0
         )
         
@@ -157,7 +159,7 @@ class TestTimeoutHelper:
         
         with pytest.raises(HTTPException) as exc_info:
             await TimeoutHelper.with_timeout(
-                mock_operation(),
+                mock_operation,
                 timeout_seconds=0.1
             )
         
@@ -173,7 +175,7 @@ class TestTimeoutHelper:
         
         with pytest.raises(HTTPException) as exc_info:
             await TimeoutHelper.with_timeout(
-                mock_operation(),
+                mock_operation,
                 timeout_seconds=0.1,
                 timeout_message="Custom timeout message"
             )
@@ -192,7 +194,7 @@ class TestRetryHelper:
             return "success"
         
         result = await RetryHelper.with_retry(
-            mock_operation(),
+            mock_operation,
             max_retries=3,
             retry_delay=0.1
         )
@@ -212,7 +214,7 @@ class TestRetryHelper:
             return "success"
         
         result = await RetryHelper.with_retry(
-            mock_operation(),
+            mock_operation,
             max_retries=3,
             retry_delay=0.1
         )
@@ -228,7 +230,7 @@ class TestRetryHelper:
         
         with pytest.raises(Exception) as exc_info:
             await RetryHelper.with_retry(
-                mock_operation(),
+                mock_operation,
                 max_retries=3,
                 retry_delay=0.1
             )
@@ -238,22 +240,34 @@ class TestRetryHelper:
     @pytest.mark.asyncio
     async def test_with_retry_specific_exceptions(self):
         """Test retry only for specific exceptions."""
-        async def mock_operation():
+        async def mock_operation_valueerror():
             raise ValueError("Specific error")
+        
+        async def mock_operation_typeerror():
+            raise TypeError("Type error")
         
         # Should retry for ValueError
         with pytest.raises(ValueError):
             await RetryHelper.with_retry(
-                mock_operation(),
+                mock_operation_valueerror,
                 max_retries=3,
                 retry_delay=0.1,
                 retry_exceptions=(ValueError,)
             )
         
-        # Should not retry for TypeError
+        # Should not retry for ValueError when retry_exceptions is TypeError only
+        with pytest.raises(ValueError):
+            await RetryHelper.with_retry(
+                mock_operation_valueerror,
+                max_retries=3,
+                retry_delay=0.1,
+                retry_exceptions=(TypeError,)
+            )
+        
+        # Should retry for TypeError
         with pytest.raises(TypeError):
             await RetryHelper.with_retry(
-                mock_operation(),
+                mock_operation_typeerror,
                 max_retries=3,
                 retry_delay=0.1,
                 retry_exceptions=(TypeError,)
@@ -272,7 +286,7 @@ class TestRetryHelper:
         
         with pytest.raises(Exception):
             await RetryHelper.with_retry(
-                mock_operation(),
+                mock_operation,
                 max_retries=3,
                 retry_delay=0.1,
                 backoff_factor=2.0

@@ -38,9 +38,13 @@ class TestLLMService:
         mock_chunk2 = Mock()
         mock_chunk2.text = " world!"
         
-        mock_response = AsyncMock()
-        mock_response.__aiter__.return_value = [mock_chunk1, mock_chunk2]
+        # Create a synchronous iterable (not async)
+        mock_response = Mock()
+        mock_response.__iter__ = Mock(return_value=iter([mock_chunk1, mock_chunk2]))
         mock_model.generate_content.return_value = mock_response
+        
+        # Replace the model in the service instance
+        self.llm_service.model = mock_model
         
         # Test streaming response
         response_chunks = []
@@ -66,6 +70,9 @@ class TestLLMService:
         mock_response.text = "Hello world!"
         mock_model.generate_content.return_value = mock_response
         
+        # Replace the model in the service instance
+        self.llm_service.model = mock_model
+        
         # Test non-streaming response
         response_chunks = []
         async for chunk in self.llm_service.generate_response(
@@ -87,6 +94,9 @@ class TestLLMService:
         
         # Mock timeout error
         mock_model.generate_content.side_effect = Exception("Timeout")
+        
+        # Replace the model in the service instance
+        self.llm_service.model = mock_model
         
         # Test timeout handling
         response_chunks = []

@@ -131,7 +131,7 @@ class TimeoutHelper:
         Execute a coroutine with a timeout.
         
         Args:
-            coro: Coroutine to execute
+            coro: Coroutine to execute or function that returns a coroutine
             timeout_seconds: Timeout in seconds
             timeout_message: Message to include in timeout exception
             
@@ -143,6 +143,9 @@ class TimeoutHelper:
         """
         import asyncio
         try:
+            # If coro is a function (not a coroutine), call it to get the coroutine
+            if callable(coro) and not hasattr(coro, '__await__'):
+                coro = coro()
             return await asyncio.wait_for(coro, timeout=timeout_seconds)
         except asyncio.TimeoutError:
             logger.warning(f"Operation timed out after {timeout_seconds} seconds")
