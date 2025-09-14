@@ -25,6 +25,7 @@ class TestLLMService:
         mock_genai.GenerativeModel.assert_called_once_with('gemini-2.5-flash-lite')
     
     @patch('app.services.llm_service.genai')
+    @pytest.mark.asyncio
     async def test_generate_response_streaming(self, mock_genai):
         """Test generating streaming response."""
         # Mock the model
@@ -53,6 +54,7 @@ class TestLLMService:
         mock_model.generate_content.assert_called_once()
     
     @patch('app.services.llm_service.genai')
+    @pytest.mark.asyncio
     async def test_generate_response_non_streaming(self, mock_genai):
         """Test generating non-streaming response."""
         # Mock the model
@@ -76,6 +78,7 @@ class TestLLMService:
         mock_model.generate_content.assert_called_once()
     
     @patch('app.services.llm_service.genai')
+    @pytest.mark.asyncio
     async def test_generate_response_with_timeout(self, mock_genai):
         """Test generating response with timeout handling."""
         # Mock the model

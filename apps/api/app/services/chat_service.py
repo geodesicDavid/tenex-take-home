@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, AsyncGenerator
 from app.models.chat import ChatRequest, ChatResponse
 from app.models.calendar import CalendarEvent
@@ -58,7 +58,7 @@ class ChatService:
             
             return ChatResponse(
                 response=response_text,
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 calendar_context_included=bool(calendar_events),
                 event_count=len(calendar_events)
             )
@@ -67,7 +67,7 @@ class ChatService:
             logger.error(f"Error processing chat message: {str(e)}")
             return ChatResponse(
                 response="I'm sorry, I'm having trouble processing your message right now.",
-                timestamp=datetime.utcnow(),
+                timestamp=datetime.now(timezone.utc),
                 calendar_context_included=False,
                 event_count=0
             )

@@ -1,5 +1,5 @@
 import pytest
-from datetime import datetime
+from datetime import datetime, timezone
 from unittest.mock import AsyncMock, MagicMock
 from fastapi import HTTPException, Request
 from app.models.chat import ChatRequest, ChatResponse
@@ -24,7 +24,7 @@ def mock_request():
 def mock_chat_request():
     return ChatRequest(
         message="Hello, world!",
-        timestamp=datetime.utcnow()
+        timestamp=datetime.now(timezone.utc)
     )
 
 @pytest.mark.asyncio
@@ -33,7 +33,7 @@ async def test_send_chat_message_success(mock_request, mock_user, mock_chat_requ
     # Mock the chat service response
     expected_response = ChatResponse(
         response="I hear you.",
-        timestamp=datetime.utcnow()
+        timestamp=datetime.now(timezone.utc)
     )
     
     chat_service.validate_message = AsyncMock(return_value=True)
@@ -60,7 +60,7 @@ async def test_send_chat_message_empty_message(mock_request, mock_user):
     """Test chat message sending with empty message."""
     empty_request = ChatRequest(
         message="",
-        timestamp=datetime.utcnow()
+        timestamp=datetime.now(timezone.utc)
     )
     
     chat_service.validate_message = AsyncMock(return_value=False)
@@ -84,7 +84,7 @@ async def test_send_chat_message_too_long_message(mock_request, mock_user):
     """Test chat message sending with too long message."""
     long_request = ChatRequest(
         message="A" * 10001,
-        timestamp=datetime.utcnow()
+        timestamp=datetime.now(timezone.utc)
     )
     
     chat_service.validate_message = AsyncMock(return_value=False)

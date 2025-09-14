@@ -62,7 +62,10 @@ async def test_process_message_with_calendar_context(chat_service, test_user, te
     with patch.object(chat_service, '_get_calendar_context', return_value=test_events) as mock_get_calendar, \
          patch.object(chat_service.llm_service, 'generate_response') as mock_generate:
         
-        mock_generate.return_value = ["Hello", " world!"]
+        async def mock_async_generator():
+            yield "Hello"
+            yield " world!"
+        mock_generate.return_value = mock_async_generator()
         
         request = ChatRequest(
             message="What meetings do I have today?",
@@ -84,7 +87,10 @@ async def test_process_message_with_calendar_context(chat_service, test_user, te
 async def test_process_message_without_calendar_context(chat_service, test_user):
     """Test message processing without calendar context."""
     with patch.object(chat_service.llm_service, 'generate_response') as mock_generate:
-        mock_generate.return_value = ["Hello", " world!"]
+        async def mock_async_generator():
+            yield "Hello"
+            yield " world!"
+        mock_generate.return_value = mock_async_generator()
         
         request = ChatRequest(
             message="Hello!",
@@ -123,7 +129,12 @@ async def test_process_message_streaming(chat_service, test_user, test_events, t
         async for chunk in chat_service.process_message_streaming(request, test_user):
             response_chunks.append(chunk)
         
-        assert response_chunks == ["Hello", " world!"]
+        # Check that we got SSE-formatted chunks
+        assert len(response_chunks) >= 2
+        assert "data:" in response_chunks[0]
+        assert "Hello" in response_chunks[0]
+        assert "data:" in response_chunks[1]
+        assert "world!" in response_chunks[1]
 
 
 @pytest.mark.asyncio
@@ -181,7 +192,9 @@ async def test_get_calendar_summary(chat_service, test_user, test_events):
     with patch.object(chat_service, '_get_calendar_context', return_value=test_events), \
          patch.object(chat_service.llm_service, 'generate_response') as mock_generate:
         
-        mock_generate.return_value = ["You have 2 meetings today."]
+        async def mock_async_generator():
+            yield "You have 2 meetings today."
+        mock_generate.return_value = mock_async_generator()
         
         summary = await chat_service.get_calendar_summary(
             user_id=test_user.id,

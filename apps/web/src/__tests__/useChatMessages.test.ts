@@ -33,8 +33,8 @@ describe('useChatMessages', () => {
   it('adds user message and sends it when sendUserMessage is called', async () => {
     mockSendMessageStreaming.mockImplementation((_message, onChunk, _onError) => {
       // Simulate streaming response
-      onChunk({ content: 'I hear you.', isComplete: false });
-      onChunk({ content: '', isComplete: true });
+      onChunk({ id: 'chunk-1', content: 'I hear you.', isComplete: false });
+      onChunk({ id: 'chunk-2', content: '', isComplete: true });
       return Promise.resolve();
     });
 
@@ -81,7 +81,7 @@ describe('useChatMessages', () => {
     mockSendMessageStreaming.mockImplementation((_message, onChunk, _onError) => {
       return new Promise((resolve) => {
         setTimeout(() => {
-          onChunk({ content: 'Response', isComplete: true });
+          onChunk({ id: 'chunk-1', content: 'Response', isComplete: true });
           resolve();
         }, 100);
       });
@@ -121,7 +121,7 @@ describe('useChatMessages', () => {
 
   it('clears messages when clearMessages is called', async () => {
     mockSendMessageStreaming.mockImplementation((_message, onChunk, _onError) => {
-      onChunk({ content: 'I hear you.', isComplete: true });
+      onChunk({ id: 'chunk-1', content: 'I hear you.', isComplete: true });
       return Promise.resolve();
     });
 
@@ -143,7 +143,7 @@ describe('useChatMessages', () => {
 
   it('trims message text before sending', async () => {
     mockSendMessageStreaming.mockImplementation((_message, onChunk, _onError) => {
-      onChunk({ content: 'I hear you.', isComplete: true });
+      onChunk({ id: 'chunk-1', content: 'I hear you.', isComplete: true });
       return Promise.resolve();
     });
 
@@ -161,7 +161,7 @@ describe('useChatMessages', () => {
     mockSendMessageStreaming.mockImplementation((_message, onChunk, _onError) => {
       return new Promise((resolve) => {
         setTimeout(() => {
-          onChunk({ content: 'Response', isComplete: true });
+          onChunk({ id: 'chunk-1', content: 'Response', isComplete: true });
           resolve();
         }, 100);
       });
