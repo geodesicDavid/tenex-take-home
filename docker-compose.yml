@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # Frontend (React/Vite)
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000
+      - VITE_APP_URL=http://localhost:3000
+    depends_on:
+      - api
+    networks:
+      - app-network
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/web/src
+          target: /app/apps/web/src
+        - action: sync
+          path: ./packages/shared/src
+          target: /app/packages/shared/src
+        - action: rebuild
+          path: ./apps/web/package.json
+        - action: rebuild
+          path: ./packages/shared/package.json
+
+  # Backend (FastAPI)
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+      - FRONTEND_URL=http://localhost:3000
+      - GOOGLE_REDIRECT_URI=http://localhost:8000/api/auth/google/callback
+    volumes:
+      - ./apps/api/.env:/app/.env:ro
+    networks:
+      - app-network
+    develop:
+      watch:
+        - action: sync
+          path: ./apps/api/app
+          target: /app/app
+        - action: rebuild
+          path: ./apps/api/requirements.txt
+
+networks:
+  app-network:
+    driver: bridge

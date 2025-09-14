@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # Frontend (React/Vite with hot reload)
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000
+      - VITE_APP_URL=http://localhost:3000
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+      - ./packages/shared:/app/packages/shared
+    depends_on:
+      - api
+    networks:
+      - app-network
+    command: npm run dev
+
+  # Backend (FastAPI with hot reload)
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+      - FRONTEND_URL=http://localhost:3000
+      - GOOGLE_REDIRECT_URI=http://localhost:8000/api/auth/google/callback
+    volumes:
+      - ./apps/api:/app
+      - /app/venv
+    networks:
+      - app-network
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+  # Shared package compiler
+  shared:
+    build:
+      context: ./packages/shared
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./packages/shared:/app
+      - /app/node_modules
+    command: npm run dev
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

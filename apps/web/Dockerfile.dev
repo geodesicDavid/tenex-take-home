@@ -1,0 +1,25 @@
+FROM node:18-alpine
+
+# Install additional dependencies for development
+RUN apk add --no-cache git
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY apps/web/package*.json ./apps/web/
+COPY packages/shared/package*.json ./packages/shared/
+
+# Install all dependencies (including dev)
+RUN npm ci
+
+# Copy source code
+COPY apps/web ./apps/web
+COPY packages/shared ./packages/shared
+
+# Expose port for development
+EXPOSE 3000
+
+# Development command
+CMD ["npm", "run", "dev"]
