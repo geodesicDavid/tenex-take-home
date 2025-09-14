@@ -28,7 +28,7 @@ class LLMService:
                 raise ValueError("GOOGLE_GEMINI_API_KEY not configured")
             
             genai.configure(api_key=self.api_key)
-            self.model = genai.GenerativeModel('gemini-2.0-flash-lite')
+            self.model = genai.GenerativeModel('gemini-2.5-flash-lite')
             logger.info("Gemini client initialized successfully")
         except Exception as e:
             logger.error(f"Failed to initialize Gemini client: {str(e)}")
@@ -131,7 +131,7 @@ class LLMService:
     def get_model_info(self) -> Dict[str, Any]:
         """Get information about the configured model."""
         return {
-            "model_name": "gemini-2.0-flash-lite",
+            "model_name": "gemini-2.-5flash-lite",
             "api_key_configured": bool(self.api_key),
             "max_retries": self.max_retries,
             "timeout": self.timeout
